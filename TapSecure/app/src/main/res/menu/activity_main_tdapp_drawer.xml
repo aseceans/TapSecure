@@ -3,28 +3,44 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home"
+            android:title="Home" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_accounts"
+            android:icon="@drawable/myaccounts"
+            android:title="My Accounts" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_transfers"
+            android:icon="@drawable/transfers"
+            android:title="Transfers" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_bills"
+            android:icon="@drawable/bills"
+            android:title="Bills" />
+        <item
+            android:id="@+id/nav_myspend"
+            android:icon="@drawable/tdmyspend"
+            android:title="TD MySpend" />
+        <item
+            android:id="@+id/nav_mobiledeposit"
+            android:icon="@drawable/mobiledeposit"
+            android:title="Mobile Deposit" />
+        <item
+            android:id="@+id/nav_tdforme"
+            android:icon="@drawable/tdforme"
+            android:title="TD for me" />
+        <item
+            android:id="@+id/nav_cbbanking"
+            android:icon="@drawable/cbbanking"
+            android:title="Cross-Border Banking" />
     </group>
 
     <item android:title="Communicate">
         <menu>
             <item
                 android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/psl"
                 android:title="Share" />
             <item
                 android:id="@+id/nav_send"
