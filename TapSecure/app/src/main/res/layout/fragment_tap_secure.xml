@@ -5,6 +5,17 @@
     tools:context="com.example.alexandryan.tapsecure.TapSecureFragment">
 
     <!-- TODO: Update blank fragment layout -->
+
+    <Button
+        android:text="Get Started"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#00A221"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
+        android:id="@+id/button" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
