@@ -1,7 +1,10 @@
 package com.example.alexandryan.tapsecure;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentActivity;
 import android.support.design.widget.Snackbar;
@@ -11,6 +14,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -20,33 +27,24 @@ import static com.example.alexandryan.tapsecure.R.id.fragment_container;
 public class MainTDAppActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, TDHomeFragment.OnFragmentInteractionListener {
 
+    protected NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_tdapp);
 
-        //fragment stuff
-        // Check that the activity is using the layout version with
-        // the fragment_container FrameLayout
-        if (findViewById(fragment_container) != null) {
+        loadHomeFragment(savedInstanceState);
+        createNavDrawerAndToolbar();
+    }
 
-            // However, if we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments.
-            if (savedInstanceState != null) {
-                return;
-            }
-           // setTitle("Live Feedback");
-            // Create a new Fragment to be placed in the activity layout
-            TDHomeFragment liveFeedbackFrag = new TDHomeFragment();
-
-            // In case this activity was started with special instructions from an
-            // Intent, pass the Intent's extras to the fragment as arguments
-            liveFeedbackFrag.setArguments(getIntent().getExtras());
-
-            // Add the fragment to the 'fragment_container' FrameLayout
-            //getSupportFragmentManager().beginTransaction().add(fragment_container, liveFeedbackFrag).commit();
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, liveFeedbackFrag).commit();
+    public void createNavDrawerAndToolbar(){
+        //Change nav bar Items to Grey starting at index 1
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        for (int i = 1; i < navigationView.getMenu().size(); ++i){
+            MenuItem menuItem = navigationView.getMenu().getItem(i);
+            SpannableString s = new SpannableString(menuItem.getTitle());
+            s.setSpan(new ForegroundColorSpan(Color.GRAY), 0, s.length(), 0);
+            menuItem.setTitle(s);
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -60,6 +58,32 @@ public class MainTDAppActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    public void loadHomeFragment(Bundle savedInstanceState){
+        //FRAGMENT STUFF
+        // Check that the activity is using the layout version with
+        // the fragment_container FrameLayout
+        if (findViewById(fragment_container) != null) {
+
+            // However, if we're being restored from a previous state,
+            // then we don't need to do anything and should return or else
+            // we could end up with overlapping fragments.
+            if (savedInstanceState != null) {
+                return;
+            }
+            // setTitle("Live Feedback");
+            // Create a new Fragment to be placed in the activity layout
+            TDHomeFragment liveFeedbackFrag = new TDHomeFragment();
+
+            // In case this activity was started with special instructions from an
+            // Intent, pass the Intent's extras to the fragment as arguments
+            liveFeedbackFrag.setArguments(getIntent().getExtras());
+
+            // Add the fragment to the 'fragment_container' FrameLayout
+            //getSupportFragmentManager().beginTransaction().add(fragment_container, liveFeedbackFrag).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, liveFeedbackFrag).commit();
+        }
     }
 
     @Override

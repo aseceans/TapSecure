@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="all">
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_hometest"
@@ -38,31 +38,25 @@
             android:id="@+id/nav_cbbanking"
             android:icon="@drawable/ic_hometest"
             android:title="Cross-Border Banking" />
+        <item
+            android:id="@+id/nav_locations"
+            android:icon="@drawable/ic_locations"
+            android:title="Locations" />
+        <item
+            android:id="@+id/nav_sendfeedback"
+            android:icon="@drawable/ic_sendfeedback"
+            android:title="Send" />
+        <item
+            android:id="@+id/nav_contactus"
+            android:icon="@drawable/ic_contactus"
+            android:title="Contact Us" />
+        <item
+            android:id="@+id/nav_faq"
+            android:icon="@drawable/ic_copy"
+            android:title="Send" />
+        <item
+            android:id="@+id/nav_psl"
+            android:icon="@drawable/ic_copy"
+            android:title="Privacy, Security &amp; Legal" />
     </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_locations"
-                android:icon="@drawable/ic_locations"
-                android:title="Locations" />
-            <item
-                android:id="@+id/nav_sendfeedback"
-                android:icon="@drawable/ic_sendfeedback"
-                android:title="Send" />
-            <item
-                android:id="@+id/nav_contactus"
-                android:icon="@drawable/ic_contactus"
-                android:title="Contact Us" />
-            <item
-                android:id="@+id/nav_faq"
-                android:icon="@drawable/ic_copy"
-                android:title="Send" />
-            <item
-                android:id="@+id/nav_psl"
-                android:icon="@drawable/ic_copy"
-                android:title="Privacy, Security &amp; Legal" />
-        </menu>
-    </item>
-
 </menu>
