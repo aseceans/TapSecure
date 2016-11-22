@@ -1,13 +1,10 @@
 package com.example.alexandryan.tapsecure;
 
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.FragmentActivity;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,8 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
-import android.text.style.AbsoluteSizeSpan;
-import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +20,9 @@ import android.view.MenuItem;
 import static com.example.alexandryan.tapsecure.R.id.fragment_container;
 
 public class MainTDAppActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, TDHomeFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        TDHomeFragment.OnFragmentInteractionListener,
+        TapSecureFragment.OnFragmentInteractionListener {
 
     protected NavigationView navigationView;
     @Override
@@ -34,13 +31,13 @@ public class MainTDAppActivity extends AppCompatActivity
         setContentView(R.layout.activity_main_tdapp);
 
         loadHomeFragment(savedInstanceState);
-        createNavDrawerAndToolbar();
+        createNavDrawerAndToolbar(2);
     }
 
-    public void createNavDrawerAndToolbar(){
+    public void createNavDrawerAndToolbar(int startidx){
         //Change nav bar Items to Grey starting at index 1
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-        for (int i = 1; i < navigationView.getMenu().size(); ++i){
+        for (int i = startidx; i < navigationView.getMenu().size(); ++i){
             MenuItem menuItem = navigationView.getMenu().getItem(i);
             SpannableString s = new SpannableString(menuItem.getTitle());
             s.setSpan(new ForegroundColorSpan(Color.GRAY), 0, s.length(), 0);
@@ -61,7 +58,6 @@ public class MainTDAppActivity extends AppCompatActivity
     }
 
     public void loadHomeFragment(Bundle savedInstanceState){
-        //FRAGMENT STUFF
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
         if (findViewById(fragment_container) != null) {
@@ -72,18 +68,32 @@ public class MainTDAppActivity extends AppCompatActivity
             if (savedInstanceState != null) {
                 return;
             }
-            // setTitle("Live Feedback");
+
             // Create a new Fragment to be placed in the activity layout
-            TDHomeFragment liveFeedbackFrag = new TDHomeFragment();
+            TDHomeFragment homeFrag = new TDHomeFragment();
 
             // In case this activity was started with special instructions from an
             // Intent, pass the Intent's extras to the fragment as arguments
-            liveFeedbackFrag.setArguments(getIntent().getExtras());
+            homeFrag.setArguments(getIntent().getExtras());
 
             // Add the fragment to the 'fragment_container' FrameLayout
-            //getSupportFragmentManager().beginTransaction().add(fragment_container, liveFeedbackFrag).commit();
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, liveFeedbackFrag).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, homeFrag).commit();
         }
+    }
+
+    public void launchNewFragment(Fragment newFragment){
+        //TapSecureFragment newFragment = new TapSecureFragment();
+
+        // setTitle(titleText);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack so the user can navigate back
+        transaction.replace(R.id.fragment_container, newFragment);
+        transaction.addToBackStack(null);
+
+        // Commit the transaction
+        transaction.commit();
     }
 
     @Override
@@ -118,30 +128,26 @@ public class MainTDAppActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-/*
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_home) {
+            launchNewFragment(new TDHomeFragment());
+        } else if (id == R.id.nav_tapsecure) {
+            launchNewFragment(new TapSecureFragment());
         }
-*/
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 
 
     @Override
