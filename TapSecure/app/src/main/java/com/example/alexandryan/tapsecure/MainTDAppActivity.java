@@ -23,7 +23,8 @@ import static com.example.alexandryan.tapsecure.R.id.fragment_container;
 public class MainTDAppActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         TDHomeFragment.OnFragmentInteractionListener,
-        TapSecureFragment.OnFragmentInteractionListener {
+        TapSecureIntroFragment.OnFragmentInteractionListener,
+        TapSecureMainFragment.OnFragmentInteractionListener {
 
     private boolean firstTime;
 
@@ -86,7 +87,7 @@ public class MainTDAppActivity extends AppCompatActivity
     }
 
     public void launchNewFragment(Fragment newFragment){
-        //TapSecureFragment newFragment = new TapSecureFragment();
+        //TapSecureIntroFragment newFragment = new TapSecureIntroFragment();
 
         // setTitle(titleText);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -143,7 +144,12 @@ public class MainTDAppActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             launchNewFragment(new TDHomeFragment());
         } else if (id == R.id.nav_tapsecure) {
-            launchNewFragment(new TapSecureFragment());
+            if(firstTime) {
+                launchNewFragment(new TapSecureIntroFragment());
+                firstTime = false;
+            } else {
+                launchNewFragment(new TapSecureMainFragment());
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -160,9 +166,6 @@ public class MainTDAppActivity extends AppCompatActivity
     }
 
     public void OnGetStartedClick(View view) {
-        if(firstTime) {
-            launchNewFragment(new TDHomeFragment());
-        }
-        firstTime = false;
+        launchNewFragment(new TapSecureMainFragment());
     }
 }
