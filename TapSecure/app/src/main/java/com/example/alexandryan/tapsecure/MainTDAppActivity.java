@@ -1,5 +1,6 @@
 package com.example.alexandryan.tapsecure;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -172,10 +173,14 @@ public class MainTDAppActivity extends AppCompatActivity
     }
 
     public void onSettingsClick(View view) {
-        launchNewFragment(new SettingsFragment());
+        //launchNewFragment(new SettingsFragment());
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 
     public void onNotificationsClick(View view) {
-        launchNewFragment(new NotificationsFragment());
+        //launchNewFragment(new NotificationsFragment());
+        //Intent intent = new Intent(this, NotificationsActivity.class);
+       // startActivity(intent);
     }
 }
