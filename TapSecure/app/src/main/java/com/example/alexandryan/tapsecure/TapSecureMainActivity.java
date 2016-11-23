@@ -6,20 +6,21 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
-public class SettingsActivity extends AppCompatActivity {
+public class TapSecureMainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
-        setTitle("TD TapSecure Settings");
+        setContentView(R.layout.activity_tap_secure_main);
+        setTitle("TD TapSecure");
         //NOTE: back button page routing is declared in manifest as the parent
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        //creates settings gear in top right corner
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.settings_gear,menu);
         return super.onCreateOptionsMenu(menu);
@@ -27,13 +28,14 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.settings_id:
-                Intent intent = new Intent(this, NotificationsActivity.class);
-                startActivity(intent);
-                break;
-
+        //if gear is selected in top right corner
+        if(item.getItemId() == R.id.settings_id){
+            startActivity(new Intent(this, SettingsActivity.class));
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onNotificationsClick(View view) {
+        startActivity(new Intent(this, NotificationsActivity.class));
     }
 }

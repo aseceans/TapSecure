@@ -1,29 +1,16 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_tap_secure_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.alexandryan.tapsecure.TapSecureMainFragment"
-    android:background="#EFEFF4">
-
-    <!-- TODO: Update blank fragment layout -->
+    android:background="#EFEFF4"
+    tools:context="com.example.alexandryan.tapsecure.TapSecureMainActivity">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView3"
-            android:text="TD TapSecure"
-            android:textSize="30dp"
-            android:gravity="center"
-            android:paddingTop="5dp"
-            android:paddingBottom="18dp"
-            android:textStyle="bold"
-            android:background="#1A5436"
-            android:textColor="#FFFFFF"/>
 
         <Switch
             android:text="Enable TapSecure"
@@ -56,23 +43,6 @@
                 android:background="@drawable/td_button"/>
 
             <Button
-                android:text="TapSecure Settings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/settingsBtn"
-                android:textAlignment="textStart"
-                android:textStyle="normal"
-                android:textSize="20dp"
-                android:padding="20dp"
-                android:textAllCaps="false"
-                android:background="@drawable/td_button"
-                android:drawableLeft="@drawable/ic_settings"
-                android:drawablePadding="20dp"
-                android:layout_marginTop="10dp"
-                android:stateListAnimator="@null"
-                android:onClick="onSettingsClick" />
-
-            <Button
                 android:text="Notifications"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -85,11 +55,10 @@
                 android:background="@drawable/td_button"
                 android:drawableLeft="@drawable/ic_notifications"
                 android:drawablePadding="20dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="20dp"
                 android:stateListAnimator="@null"
-                android:layout_margin="0dp"
                 android:onClick="onNotificationsClick" />
         </LinearLayout>
 
     </LinearLayout>
-</FrameLayout>
+</RelativeLayout>

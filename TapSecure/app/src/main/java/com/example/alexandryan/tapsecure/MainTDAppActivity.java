@@ -24,10 +24,7 @@ import static com.example.alexandryan.tapsecure.R.id.fragment_container;
 public class MainTDAppActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         TDHomeFragment.OnFragmentInteractionListener,
-        TapSecureIntroFragment.OnFragmentInteractionListener,
-        TapSecureMainFragment.OnFragmentInteractionListener,
-        SettingsFragment.OnFragmentInteractionListener,
-        NotificationsFragment.OnFragmentInteractionListener {
+        TapSecureIntroFragment.OnFragmentInteractionListener {
 
     private boolean firstTime;
 
@@ -151,7 +148,7 @@ public class MainTDAppActivity extends AppCompatActivity
                 launchNewFragment(new TapSecureIntroFragment());
                 firstTime = false;
             } else {
-                launchNewFragment(new TapSecureMainFragment());
+                startActivity(new Intent(this, TapSecureMainActivity.class));
             }
         }
 
@@ -169,18 +166,7 @@ public class MainTDAppActivity extends AppCompatActivity
     }
 
     public void OnGetStartedClick(View view) {
-        launchNewFragment(new TapSecureMainFragment());
-    }
-
-    public void onSettingsClick(View view) {
-        //launchNewFragment(new SettingsFragment());
-        Intent intent = new Intent(this, SettingsActivity.class);
+        Intent intent = new Intent(this, TapSecureMainActivity.class);
         startActivity(intent);
-    }
-
-    public void onNotificationsClick(View view) {
-        //launchNewFragment(new NotificationsFragment());
-        //Intent intent = new Intent(this, NotificationsActivity.class);
-       // startActivity(intent);
     }
 }

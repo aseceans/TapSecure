@@ -20,10 +20,13 @@
         </activity>
         <activity
             android:name=".SettingsActivity"
-            android:parentActivityName=".MainTDAppActivity"  >
-
-        </activity>
-        <activity android:name=".NotificationsActivity"></activity>
+            android:parentActivityName=".TapSecureMainActivity"/>
+        <activity
+            android:name=".NotificationsActivity"
+            android:parentActivityName=".TapSecureMainActivity"/>
+        <activity
+            android:name=".TapSecureMainActivity"
+            android:parentActivityName=".MainTDAppActivity"/>
     </application>
 
 </manifest>
