@@ -1,8 +1,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.alexandryan.tapsecure.TapSecureFragment">
+    tools:context="com.example.alexandryan.tapsecure.TapSecureFragment"
+    android:background="#FFFFFF">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -14,11 +16,17 @@
         android:background="#00A221"
         android:textColor="#FFFFFF"
         android:textSize="20dp"
-        android:id="@+id/button" />
+        android:id="@+id/getstartedBtn"
+        android:onClick="OnGetStartedClick" />
 
-    <TextView
-        android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        app:srcCompat="@drawable/tap_pay_intro"
+        android:id="@+id/tapsecureintro"
+        android:paddingTop="40dp"
+        android:paddingBottom="80dp"
+        android:foregroundGravity="center"
+        />
 
 </FrameLayout>

@@ -15,6 +15,7 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 import static com.example.alexandryan.tapsecure.R.id.fragment_container;
@@ -24,11 +25,14 @@ public class MainTDAppActivity extends AppCompatActivity
         TDHomeFragment.OnFragmentInteractionListener,
         TapSecureFragment.OnFragmentInteractionListener {
 
+    private boolean firstTime;
+
     protected NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_tdapp);
+        firstTime = true;
 
         loadHomeFragment(savedInstanceState);
         createNavDrawerAndToolbar(2);
@@ -153,5 +157,12 @@ public class MainTDAppActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    public void OnGetStartedClick(View view) {
+        if(firstTime) {
+            launchNewFragment(new TDHomeFragment());
+        }
+        firstTime = false;
     }
 }
