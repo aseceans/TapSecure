@@ -24,7 +24,9 @@ public class MainTDAppActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         TDHomeFragment.OnFragmentInteractionListener,
         TapSecureIntroFragment.OnFragmentInteractionListener,
-        TapSecureMainFragment.OnFragmentInteractionListener {
+        TapSecureMainFragment.OnFragmentInteractionListener,
+        SettingsFragment.OnFragmentInteractionListener,
+        NotificationsFragment.OnFragmentInteractionListener {
 
     private boolean firstTime;
 
@@ -167,5 +169,13 @@ public class MainTDAppActivity extends AppCompatActivity
 
     public void OnGetStartedClick(View view) {
         launchNewFragment(new TapSecureMainFragment());
+    }
+
+    public void onSettingsClick(View view) {
+        launchNewFragment(new SettingsFragment());
+    }
+
+    public void onNotificationsClick(View view) {
+        launchNewFragment(new NotificationsFragment());
     }
 }

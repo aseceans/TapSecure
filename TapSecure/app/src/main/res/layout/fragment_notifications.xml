@@ -2,10 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.alexandryan.tapsecure.TapSecureMainFragment"
-    android:background="#EFEFF4">
-
-    <!-- TODO: Update blank fragment layout -->
+    tools:context="com.example.alexandryan.tapsecure.NotificationsFragment">
 
     <LinearLayout
         android:orientation="vertical"
@@ -16,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView3"
-            android:text="TD TapSecure"
+            android:text="TD TapSecure Notifications"
             android:textSize="30dp"
             android:gravity="center"
             android:paddingTop="5dp"
@@ -90,6 +87,6 @@
                 android:layout_margin="0dp"
                 android:onClick="onNotificationsClick" />
         </LinearLayout>
-
     </LinearLayout>
+
 </FrameLayout>
