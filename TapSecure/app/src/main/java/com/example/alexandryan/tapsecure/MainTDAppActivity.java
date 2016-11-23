@@ -23,7 +23,7 @@ import static com.example.alexandryan.tapsecure.R.id.fragment_container;
 
 public class MainTDAppActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        TDHomeFragment.OnFragmentInteractionListener,
+        TDHomePageFragment.OnFragmentInteractionListener,
         TapSecureIntroFragment.OnFragmentInteractionListener {
 
     private boolean firstTime;
@@ -75,7 +75,7 @@ public class MainTDAppActivity extends AppCompatActivity
             }
 
             // Create a new Fragment to be placed in the activity layout
-            TDHomeFragment homeFrag = new TDHomeFragment();
+            TDHomePageFragment homeFrag = new TDHomePageFragment();
 
             // In case this activity was started with special instructions from an
             // Intent, pass the Intent's extras to the fragment as arguments
@@ -142,7 +142,7 @@ public class MainTDAppActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            launchNewFragment(new TDHomeFragment());
+            launchNewFragment(new TDHomePageFragment());
         } else if (id == R.id.nav_tapsecure) {
             if(firstTime) {
                 launchNewFragment(new TapSecureIntroFragment());
