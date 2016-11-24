@@ -23,7 +23,7 @@
             android:paddingLeft="65dp"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
-            android:background="@drawable/td_button"
+            android:background="@drawable/td_border_full"
             android:checked="false"
             android:splitTrack="false" />
 
@@ -42,7 +42,7 @@
                 android:paddingLeft="65dp"
                 android:paddingTop="20dp"
                 android:paddingBottom="20dp"
-                android:background="@drawable/td_button"/>
+                android:background="@drawable/td_border_full"/>
 
             <Button
                 android:text="Edit Notifications"
@@ -54,7 +54,7 @@
                 android:textSize="20dp"
                 android:padding="20dp"
                 android:textAllCaps="false"
-                android:background="@drawable/td_button"
+                android:background="@drawable/td_border_full"
                 android:drawableLeft="@drawable/ic_notifications"
                 android:drawablePadding="20dp"
                 android:layout_marginTop="20dp"
@@ -70,7 +70,7 @@
                 android:textSize="20dp"
                 android:padding="20dp"
                 android:textAllCaps="false"
-                android:background="@drawable/td_button"
+                android:background="@drawable/td_border_full"
                 android:drawableLeft="@drawable/ic_notifications"
                 android:drawablePadding="20dp"
                 android:layout_margin="0dp"

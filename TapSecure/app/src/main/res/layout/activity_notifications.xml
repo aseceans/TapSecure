@@ -4,6 +4,7 @@
     android:id="@+id/activity_notifications"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#EFEFF4"
     tools:context="com.example.alexandryan.tapsecure.NotificationsActivity">
 
     <LinearLayout
@@ -29,7 +30,7 @@
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
             android:paddingBottom="0px"
-            android:background="@drawable/td_dropdown_top"/>
+            android:background="@drawable/td_border_top"/>
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,6 +41,6 @@
             android:spinnerMode="dialog"
             android:textAlignment="viewStart"
             android:drawableLeft="@drawable/ic_notifications"
-            android:background="@drawable/td_dropdown"/>
+            android:background="@drawable/td_dropdown_bottom"/>
     </LinearLayout>
 </RelativeLayout>
