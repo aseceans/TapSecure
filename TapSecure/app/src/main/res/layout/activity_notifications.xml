@@ -42,5 +42,29 @@
             android:textAlignment="viewStart"
             android:drawableLeft="@drawable/ic_notifications"
             android:background="@drawable/td_dropdown_bottom"/>
+
+        <Switch
+            android:text="Cumulative"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cumulativeSwitch"
+            android:textSize="20dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/td_border_full"/>
+        <Switch
+            android:text="Tap Watch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tapWatchSwitch"
+            android:textSize="20dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:background="@drawable/td_border_full"/>
     </LinearLayout>
+
+
 </RelativeLayout>

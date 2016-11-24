@@ -49,7 +49,7 @@ public class TapSecureMainActivity extends AppCompatActivity {
             }
         });
         setTitle("TD TapSecure");
-        
+
         //NOTE: back button page routing is declared in manifest as the parent
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

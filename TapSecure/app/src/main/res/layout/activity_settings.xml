@@ -75,15 +75,17 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
+                android:inputType="number"
                 android:ems="10"
                 android:paddingRight="10dp"
                 android:id="@+id/amountEntered"
                 android:layout_weight="0.8"
-                android:text="0.00"
+                android:text="100"
                 android:textSize="20sp"
                 android:background="@android:color/transparent"
-                android:textColor="#777777"/>
+                android:textColor="#777777"
+
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -104,7 +106,8 @@
                 android:layout_marginLeft="40dp"
                 android:textSize="20dp"
                 android:background="@drawable/td_amount_button"
-                />
+                android:onClick="onDollarAmtClick" />
+
 
             <Button
                 android:text="$100"
@@ -116,7 +119,7 @@
                 android:layout_marginLeft="10dp"
                 android:textSize="20dp"
                 android:background="@drawable/td_amount_button"
-                />
+                android:onClick="onDollarAmtClick" />
 
             <Button
                 android:text="$250"
@@ -129,8 +132,30 @@
                 android:layout_marginRight="40dp"
                 android:textSize="20dp"
                 android:background="@drawable/td_amount_button"
-                />
+                android:onClick="onDollarAmtClick" />
         </LinearLayout>
+
+        <Switch
+            android:text="Cumulative"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cumulativeSwitch"
+            android:textSize="20dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/td_border_full"/>
+        <Switch
+            android:text="Tap Watch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tapWatchSwitch"
+            android:textSize="20dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:background="@drawable/td_border_full"/>
 
     </LinearLayout>
 

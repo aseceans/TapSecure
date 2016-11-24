@@ -23,9 +23,7 @@
             android:paddingLeft="65dp"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
-            android:background="@drawable/td_border_full"
-            android:checked="false"
-            android:splitTrack="false" />
+            android:background="@drawable/td_border_full" />
 
         <LinearLayout
             android:orientation="vertical"
