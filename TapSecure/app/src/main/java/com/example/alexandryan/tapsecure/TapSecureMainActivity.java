@@ -14,35 +14,62 @@ import android.widget.Switch;
 
 public class TapSecureMainActivity extends AppCompatActivity {
 
-    Switch enableSwitch;
+    Switch chequingSwitch;
     Switch visaSwitch;
     Button notificationsBtn;
     Button settingsBtn;
+    Boolean visaSwitchOn;
+    Boolean chequingSwitchOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tap_secure_main);
+
         //initialize variables
-        enableSwitch = (Switch) findViewById(R.id.enableTsSwitch);
+        chequingSwitch = (Switch) findViewById(R.id.enableTsSwitch);
         visaSwitch = (Switch) findViewById(R.id.visaSwitch);
+
+        visaSwitchOn = false;
+        chequingSwitchOn = false;
+
         notificationsBtn = (Button) findViewById(R.id.notificationsBtn);
         settingsBtn = (Button) findViewById(R.id.settingsBtn);
 
         //set to invisible on page load:
-        visaSwitch.setVisibility(View.INVISIBLE);
         notificationsBtn.setVisibility(View.INVISIBLE);
         settingsBtn.setVisibility(View.INVISIBLE);
 
-        enableSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        chequingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if(isChecked){ //on
-                    visaSwitch.setVisibility(View.VISIBLE);
+                if (isChecked)
+                    chequingSwitchOn = true;
+                else
+                    chequingSwitchOn = false;
+
+                if(chequingSwitchOn || visaSwitchOn){ //on
                     notificationsBtn.setVisibility(View.VISIBLE);
                     settingsBtn.setVisibility(View.VISIBLE);
                 } else { //off
-                    visaSwitch.setVisibility(View.INVISIBLE);
+                    notificationsBtn.setVisibility(View.INVISIBLE);
+                    settingsBtn.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        visaSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked)
+                    visaSwitchOn = true;
+                else
+                    visaSwitchOn = false;
+
+                if(chequingSwitchOn || visaSwitchOn){ //on
+                    notificationsBtn.setVisibility(View.VISIBLE);
+                    settingsBtn.setVisibility(View.VISIBLE);
+                } else { //off
                     notificationsBtn.setVisibility(View.INVISIBLE);
                     settingsBtn.setVisibility(View.INVISIBLE);
                 }

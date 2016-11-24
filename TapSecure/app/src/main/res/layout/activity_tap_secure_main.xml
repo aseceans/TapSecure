@@ -7,32 +7,27 @@
     android:background="#EFEFF4"
     tools:context="com.example.alexandryan.tapsecure.TapSecureMainActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
-
-        <Switch
-            android:text="Enable TapSecure"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/enableTsSwitch"
-            android:textSize="20dp"
-            android:paddingLeft="65dp"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:background="@drawable/td_border_full" />
-
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
             android:id="@+id/cardsGroup">
 
             <Switch
-                android:text="Visa"
+                android:text="Enable TapSecure for\nChequing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/enableTsSwitch"
+                android:textSize="20dp"
+                android:paddingLeft="65dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:background="@drawable/td_border_full" />
+
+            <Switch
+                android:text="Enable TapSecure for\nVisa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/visaSwitch"
@@ -77,6 +72,4 @@
 
 
         </LinearLayout>
-
-    </LinearLayout>
 </RelativeLayout>
