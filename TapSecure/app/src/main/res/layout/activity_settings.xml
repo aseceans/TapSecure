@@ -15,11 +15,21 @@
 
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spaceholder" />
+
+        <TextView
             android:text="Select Account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/accountLabel"
-            android:textColor="#1A5436"/>
+            android:textColor="#1A5436"
+            android:textSize="16dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="0px"
+            android:background="@drawable/td_dropdown_top"/>
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,16 +38,9 @@
             android:layout_alignParentStart="true"
             android:prompt="@string/discuss_about_header"
             android:spinnerMode="dialog"
-            android:textSize="20dp"
-            android:paddingLeft="65dp"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
+            android:textAlignment="viewStart"
             android:drawableLeft="@drawable/ic_notifications"
-            android:background="@drawable/td_button"/>
-
-
-
-
+            android:background="@drawable/td_dropdown"/>
     </LinearLayout>
 
 
