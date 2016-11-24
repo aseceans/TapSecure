@@ -21,12 +21,12 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        setTitle("TD TapSecure Settings");
         createSpinner();
 
     }
 
     public void createSpinner(){
-
         // Creating adapter for spinner
         accountSpinner = (Spinner) findViewById(R.id.accountSpinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, getResources().getStringArray(R.array.accounts)); //
@@ -36,27 +36,8 @@ public class SettingsActivity extends AppCompatActivity {
         // Drop down layout style - list view with radio button
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        setTitle("TD TapSecure Settings");
         //NOTE: back button page routing is declared in manifest as the parent
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.settings_gear,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.settings_id:
-                Intent intent = new Intent(this, NotificationsActivity.class);
-                startActivity(intent);
-                break;
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

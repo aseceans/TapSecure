@@ -49,17 +49,18 @@ public class TapSecureMainActivity extends AppCompatActivity {
             }
         });
         setTitle("TD TapSecure");
+        
         //NOTE: back button page routing is declared in manifest as the parent
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    //These 2 methods are for the gear at the top
     public boolean onCreateOptionsMenu(Menu menu) {
         //creates settings gear in top right corner
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.settings_gear,menu);
         return super.onCreateOptionsMenu(menu);
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //if gear is selected in top right corner
@@ -69,11 +70,10 @@ public class TapSecureMainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     public void onNotificationsClick(View view) {
         startActivity(new Intent(this, NotificationsActivity.class));
     }
-
-
     public void onSettingsClick(View view) {
         startActivity(new Intent(this, SettingsActivity.class));
     }
