@@ -27,7 +27,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void createSpinner(){
 
-
         // Creating adapter for spinner
         accountSpinner = (Spinner) findViewById(R.id.accountSpinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, getResources().getStringArray(R.array.accounts)); //
