@@ -41,6 +41,89 @@
             android:textAlignment="viewStart"
             android:drawableLeft="@drawable/ic_notifications"
             android:background="@drawable/td_dropdown"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="0px"
+            android:background="@drawable/td_dropdown_top"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:text="Tap Amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/amountLabel"
+                android:textColor="#1A5436"
+                android:textSize="16dp"
+                android:layout_weight="1" />
+            <TextView
+                android:text="$"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/dollarSign"
+                android:textSize="20sp"
+                android:textColor="#777777"
+                android:textAlignment="viewEnd"
+                android:layout_weight="1" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:ems="10"
+                android:paddingRight="10dp"
+                android:id="@+id/amountEntered"
+                android:layout_weight="0.78"
+                android:text="0.00"
+                android:textSize="20sp"
+                android:textColor="#777777"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/td_dropdown">
+
+            <Button
+                android:text="$50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button50"
+                android:layout_weight="1"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="40dp"
+                android:background="@drawable/td_amount_button"
+                />
+
+            <Button
+                android:text="$100"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button100"
+                android:layout_weight="1"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/td_amount_button"
+                />
+
+            <Button
+                android:text="$250"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button250"
+                android:layout_weight="1"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/td_amount_button"
+                />
+        </LinearLayout>
+
     </LinearLayout>
 
 
