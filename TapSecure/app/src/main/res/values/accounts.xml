@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="accounts" >
-        <item>TD REBATE VISA 23553365225</item>
+        <item>TD VISA 2355336522565984</item>
         <item>EVERY DAY CHEQUING 3365864</item>
     </string-array>
 </resources>
