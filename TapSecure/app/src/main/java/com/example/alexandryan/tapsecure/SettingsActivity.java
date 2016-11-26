@@ -89,9 +89,17 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void createSpinner(){
+        List<String> accounts = new ArrayList<String>();
+        if(BankService.getSharedPrefs().getBoolean("VInteracFlashEnabled", false)){
+            accounts.add(BankService.VisaCard.getCardDescription());
+        }
+        if (BankService.getSharedPrefs().getBoolean("DInteracFlashEnabled", false)){
+            accounts.add(BankService.DebitCard.getCardDescription());
+        }
+
         // Creating adapter for spinner
         accountSpinner = (Spinner) findViewById(R.id.accountSpinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, getResources().getStringArray(R.array.accounts)); //
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, accounts); //
 
         // attaching data adapter to spinner
         accountSpinner.setAdapter(adapter);

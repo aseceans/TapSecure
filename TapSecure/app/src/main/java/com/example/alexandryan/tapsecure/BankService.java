@@ -12,12 +12,12 @@ public class BankService {
     private static BankService bs = new BankService();
 
     public static BankService getBankService() {return bs;}
+
     public static void setVisaInfo(Card c) { VisaCard = c; }
     public static void setDebitInfo(Card c) { DebitCard = c; }
 
-    public static void createSharedPref(SharedPreferences s) {
-        tapSettings = s;
-    }
+    public static void createSharedPref(SharedPreferences s) {tapSettings = s;}
+    public static SharedPreferences getSharedPrefs() {return tapSettings;}
 
     public static void saveCardsToSharedPrefs() {
         //STORE CARD VALUES INTO SHARED PREFS
@@ -25,7 +25,7 @@ public class BankService {
         editor.putString("VType", VisaCard.getType());
         editor.putBoolean("VIsCredit", VisaCard.getIsCredit());
         editor.putString("VCardNumber", VisaCard.getCardNumber());
-        editor.putString("VCardDescription", VisaCard.getCardNumber());
+        editor.putString("VCardDescription", VisaCard.getCardDescription());
         editor.putBoolean("VInteracFlashEnabled", VisaCard.getInteracFlashEnabled());
         editor.putBoolean("VTapSecureEnabled", VisaCard.getTapSecureEnabled());
         editor.putBoolean("VTapSecure1MinActive", VisaCard.getTapSecure1MinActive());
@@ -37,7 +37,7 @@ public class BankService {
         editor.putString("DType", DebitCard.getType());
         editor.putBoolean("DIsCredit", DebitCard.getIsCredit());
         editor.putString("DCardNumber", DebitCard.getCardNumber());
-        editor.putString("DCardDescription", DebitCard.getCardNumber());
+        editor.putString("DCardDescription", DebitCard.getCardDescription());
         editor.putBoolean("DInteracFlashEnabled", DebitCard.getInteracFlashEnabled());
         editor.putBoolean("DTapSecureEnabled", DebitCard.getTapSecureEnabled());
         editor.putBoolean("DTapSecure1MinActive", DebitCard.getTapSecure1MinActive());
@@ -77,5 +77,5 @@ public class BankService {
         
     }
     
-    public static SharedPreferences getSharedPrefs() {return tapSettings;}
+
 }
