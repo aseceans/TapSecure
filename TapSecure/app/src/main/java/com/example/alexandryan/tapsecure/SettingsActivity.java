@@ -84,7 +84,6 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Toast.makeText(this, "back pressed", Toast.LENGTH_SHORT).show();
         tapDollarDisplay.setFocusable(false);
     }
 

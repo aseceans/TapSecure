@@ -40,14 +40,14 @@ public class TapSecureMainActivity extends AppCompatActivity {
         getInitialSwitchValues();
         createSwitchListeners();
 
-        settingsBtn.setVisibility(View.INVISIBLE); //set to invisible on page load
+        //update settings visibility
+        showHideAdvancedSettings();
 
         //NOTE: back button page routing is declared in manifest as the parent
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public void getInitialSwitchValues(){
-        SharedPreferences.Editor editor = BankService.getSharedPrefs().edit();
         //get value from shared prefs
         visaSwitchOn = BankService.getSharedPrefs().getBoolean("VInteracFlashEnabled", false);
         System.out.println("V:" + visaSwitchOn);
@@ -99,22 +99,6 @@ public class TapSecureMainActivity extends AppCompatActivity {
         });
     }
 
-    //These 2 methods are for the gear at the top
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //creates settings gear in top right corner
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.settings_gear,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        //if gear is selected in top right corner
-        if(item.getItemId() == R.id.settings_id){
-            startActivity(new Intent(this, SettingsActivity.class));
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     public void onSettingsClick(View view) {
         if(firstTimeTapSecure) {
             startActivity(new Intent(this, TapSecureSplashActivity.class));
@@ -131,5 +115,7 @@ public class TapSecureMainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = BankService.getSharedPrefs().edit();
         editor.putBoolean("firstTimeTapSecure",firstTimeTapSecure);
         editor.commit();
+
+        //i can check this in shared prefs
     }
 }

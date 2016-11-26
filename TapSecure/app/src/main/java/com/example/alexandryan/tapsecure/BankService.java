@@ -64,7 +64,7 @@ public class BankService {
         VisaCard.CumModeEnabled = tapSettings.getBoolean("VCumModeEnabled", true);
         //debit
         DebitCard.Type = tapSettings.getString("DType", "EVERY DAY CHEQUING");
-        DebitCard.IsCredit = tapSettings.getBoolean("VIsCredit", false);
+        DebitCard.IsCredit = tapSettings.getBoolean("DIsCredit", false);
         DebitCard.CardNumber = tapSettings.getString("DCardNumber", "3365864");
         DebitCard.CardDescription = tapSettings.getString("DCardDescription", "EVERY DAY CHEQUING - 3365864" );
         DebitCard.InteracFlashEnabled = tapSettings.getBoolean("DInteracFlashEnabled", false);
