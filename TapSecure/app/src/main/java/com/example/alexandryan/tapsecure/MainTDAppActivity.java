@@ -23,17 +23,13 @@ import static com.example.alexandryan.tapsecure.R.id.fragment_container;
 
 public class MainTDAppActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        TDHomePageFragment.OnFragmentInteractionListener,
-        TapSecureIntroFragment.OnFragmentInteractionListener {
-
-    private boolean firstTime;
+        TDHomePageFragment.OnFragmentInteractionListener{
 
     protected NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_tdapp);
-        firstTime = true;
 
         loadHomeFragment(savedInstanceState);
         createNavDrawerAndToolbar(2);
@@ -87,8 +83,6 @@ public class MainTDAppActivity extends AppCompatActivity
     }
 
     public void launchNewFragment(Fragment newFragment){
-        //TapSecureIntroFragment newFragment = new TapSecureIntroFragment();
-
         // setTitle(titleText);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
@@ -143,13 +137,8 @@ public class MainTDAppActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             launchNewFragment(new TDHomePageFragment());
-        } else if (id == R.id.nav_tapsecure) {
-            if(firstTime) {
-                launchNewFragment(new TapSecureIntroFragment());
-                firstTime = false;
-            } else {
-                startActivity(new Intent(this, TapSecureMainActivity.class));
-            }
+        } else if (id == R.id.nav_interacFlash) {
+            startActivity(new Intent(this, TapSecureMainActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -157,16 +146,10 @@ public class MainTDAppActivity extends AppCompatActivity
         return true;
     }
 
-
-
-
     @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
 
-    public void OnGetStartedClick(View view) {
-        Intent intent = new Intent(this, TapSecureMainActivity.class);
-        startActivity(intent);
-    }
+
 }

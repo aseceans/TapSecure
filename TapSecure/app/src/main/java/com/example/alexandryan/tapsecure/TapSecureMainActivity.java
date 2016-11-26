@@ -1,9 +1,10 @@
 package com.example.alexandryan.tapsecure;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.SwitchCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,10 +17,10 @@ public class TapSecureMainActivity extends AppCompatActivity {
 
     Switch chequingSwitch;
     Switch visaSwitch;
-    Button notificationsBtn;
     Button settingsBtn;
     Boolean visaSwitchOn;
     Boolean chequingSwitchOn;
+    Boolean firstTimeTapSecure;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,17 +28,19 @@ public class TapSecureMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tap_secure_main);
 
         //initialize variables
-        chequingSwitch = (Switch) findViewById(R.id.enableTsSwitch);
-        visaSwitch = (Switch) findViewById(R.id.visaSwitch);
+        chequingSwitch = (Switch) findViewById(R.id.enableChequingIF);
+        visaSwitch = (Switch) findViewById(R.id.enableVisaIF);
+
+        //check if first time
+        SharedPreferences settings = getSharedPreferences("counterState", Context.MODE_PRIVATE); //state is the preference file
+        firstTimeTapSecure = settings.getBoolean("firstTimeTapSecure", true);
 
         visaSwitchOn = false;
         chequingSwitchOn = false;
 
-        notificationsBtn = (Button) findViewById(R.id.notificationsBtn);
         settingsBtn = (Button) findViewById(R.id.settingsBtn);
 
         //set to invisible on page load:
-        notificationsBtn.setVisibility(View.INVISIBLE);
         settingsBtn.setVisibility(View.INVISIBLE);
 
         chequingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -49,10 +52,8 @@ public class TapSecureMainActivity extends AppCompatActivity {
                     chequingSwitchOn = false;
 
                 if(chequingSwitchOn || visaSwitchOn){ //on
-                    notificationsBtn.setVisibility(View.VISIBLE);
                     settingsBtn.setVisibility(View.VISIBLE);
                 } else { //off
-                    notificationsBtn.setVisibility(View.INVISIBLE);
                     settingsBtn.setVisibility(View.INVISIBLE);
                 }
             }
@@ -67,10 +68,8 @@ public class TapSecureMainActivity extends AppCompatActivity {
                     visaSwitchOn = false;
 
                 if(chequingSwitchOn || visaSwitchOn){ //on
-                    notificationsBtn.setVisibility(View.VISIBLE);
                     settingsBtn.setVisibility(View.VISIBLE);
                 } else { //off
-                    notificationsBtn.setVisibility(View.INVISIBLE);
                     settingsBtn.setVisibility(View.INVISIBLE);
                 }
             }
@@ -97,11 +96,22 @@ public class TapSecureMainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    public void onNotificationsClick(View view) {
-        startActivity(new Intent(this, NotificationsActivity.class));
-    }
     public void onSettingsClick(View view) {
-        startActivity(new Intent(this, SettingsActivity.class));
+        if(firstTimeTapSecure) {
+            startActivity(new Intent(this, TapSecureSplashActivity.class));
+            firstTimeTapSecure = false;
+        } else {
+            startActivity(new Intent(this, SettingsActivity.class));
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //save in shared prefs that it has been visited
+        SharedPreferences settings = getSharedPreferences("counterState", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("firstTimeTapSecure",firstTimeTapSecure);
+        editor.commit();
     }
 }

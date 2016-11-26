@@ -1,12 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_tap_secure_splash"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.alexandryan.tapsecure.TapSecureIntroFragment"
+    tools:context="com.example.alexandryan.tapsecure.TapSecureSplashActivity"
     android:background="#FFFFFF">
-
-    <!-- TODO: Update blank fragment layout -->
 
     <Button
         android:text="Get Started"
@@ -22,11 +21,10 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:srcCompat="@drawable/tap_pay_intro"
+        android:src="@drawable/tap_pay_intro"
         android:id="@+id/tapsecureintro"
         android:paddingTop="40dp"
         android:paddingBottom="80dp"
         android:foregroundGravity="center"
         />
-
 </FrameLayout>

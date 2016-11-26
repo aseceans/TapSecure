@@ -16,10 +16,10 @@
             android:id="@+id/cardsGroup">
 
             <Switch
-                android:text="Enable TapSecure for\nChequing"
+                android:text="Enable Interac Flash for\nChequing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/enableTsSwitch"
+                android:id="@+id/enableChequingIF"
                 android:textSize="20dp"
                 android:paddingLeft="65dp"
                 android:paddingTop="20dp"
@@ -27,10 +27,10 @@
                 android:background="@drawable/td_border_full" />
 
             <Switch
-                android:text="Enable TapSecure for\nVisa"
+                android:text="Enable Interac Flash for\nVisa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/visaSwitch"
+                android:id="@+id/enableVisaIF"
                 android:textSize="20dp"
                 android:paddingLeft="65dp"
                 android:paddingTop="20dp"
@@ -38,23 +38,7 @@
                 android:background="@drawable/td_border_full"/>
 
             <Button
-                android:text="Edit Notifications"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/notificationsBtn"
-                android:textAlignment="textStart"
-                android:textStyle="normal"
-                android:textSize="20dp"
-                android:padding="20dp"
-                android:textAllCaps="false"
-                android:background="@drawable/td_border_full"
-                android:drawableLeft="@drawable/ic_notifications"
-                android:drawablePadding="20dp"
-                android:layout_marginTop="20dp"
-                android:stateListAnimator="@null"
-                android:onClick="onNotificationsClick" />
-            <Button
-                android:text="Edit Settings"
+                android:text="Advanced Settings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/settingsBtn"
@@ -64,12 +48,10 @@
                 android:padding="20dp"
                 android:textAllCaps="false"
                 android:background="@drawable/td_border_full"
-                android:drawableLeft="@drawable/ic_notifications"
+                android:drawableLeft="@drawable/ic_settings"
                 android:drawablePadding="20dp"
-                android:layout_margin="0dp"
+                android:layout_marginTop="20dp"
                 android:stateListAnimator="@null"
                 android:onClick="onSettingsClick" />
-
-
         </LinearLayout>
 </RelativeLayout>

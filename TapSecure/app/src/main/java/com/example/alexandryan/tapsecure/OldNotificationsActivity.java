@@ -1,20 +1,16 @@
 package com.example.alexandryan.tapsecure;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import static com.example.alexandryan.tapsecure.R.id.accountSpinner;
-
-public class NotificationsActivity extends AppCompatActivity {
+public class OldNotificationsActivity extends AppCompatActivity {
     Spinner accountSpinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notifications);
+        setContentView(R.layout.activity_notifications_old);
 
         createSpinner();
         setTitle("TD TapSecure Notifications");

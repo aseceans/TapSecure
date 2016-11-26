@@ -12,10 +12,14 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
@@ -25,11 +29,26 @@ public class SettingsActivity extends AppCompatActivity {
 
     Spinner accountSpinner;
     EditText tapDollarDisplay;
+    Switch tapSecureEnabledSwitch;
+    ScrollView tapSecureSettingsHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        tapSecureSettingsHolder = (ScrollView) findViewById(R.id.tapSecureSettingsHolder);
+        tapSecureSettingsHolder.setVisibility(View.INVISIBLE);
+        tapSecureEnabledSwitch = (Switch) findViewById(R.id.tapSecureEnabledSwitch);
+        tapSecureEnabledSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked)
+                    tapSecureSettingsHolder.setVisibility(View.VISIBLE);
+                else
+                    tapSecureSettingsHolder.setVisibility(View.INVISIBLE);
+            }
+        });
+
         setTitle("TD TapSecure Settings");
         tapDollarDisplay = (EditText) findViewById(R.id.amountEntered);
         setCursorVisibility();
@@ -37,6 +56,9 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void setCursorVisibility(){
+        //this line prevents keyboard from opening when activity launches
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         tapDollarDisplay.setCursorVisible(false);
 
         tapDollarDisplay.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +76,7 @@ public class SettingsActivity extends AppCompatActivity {
                     InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     in.hideSoftInputFromWindow(tapDollarDisplay.getApplicationWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
                 }
-                return false;
+                return true;
             }
         });
     }
@@ -93,6 +115,5 @@ public class SettingsActivity extends AppCompatActivity {
                 tapDollarDisplay.setText("250");
                 break;
         }
-
     }
 }

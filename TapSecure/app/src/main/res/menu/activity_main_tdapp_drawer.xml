@@ -7,9 +7,9 @@
             android:icon="@drawable/ic_hometest"
             android:title="Home" />
         <item
-            android:id="@+id/nav_tapsecure"
-            android:icon="@drawable/ic_myaccounts"
-            android:title="Tap Secure" />
+            android:id="@+id/nav_interacFlash"
+            android:icon="@drawable/ic_tappay"
+            android:title="Interac Flash" />
         <item
             android:id="@+id/nav_accounts"
             android:icon="@drawable/ic_myaccounts"
