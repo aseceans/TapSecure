@@ -1,6 +1,5 @@
 package com.example.alexandryan.tapsecure;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -15,69 +14,89 @@ import android.widget.Switch;
 
 public class TapSecureMainActivity extends AppCompatActivity {
 
-    Switch chequingSwitch;
+    Switch debitSwitch;
     Switch visaSwitch;
     Button settingsBtn;
     Boolean visaSwitchOn;
-    Boolean chequingSwitchOn;
+    Boolean debitSwitchOn;
     Boolean firstTimeTapSecure;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tap_secure_main);
+        //set page title
+        setTitle("TD TapSecure");
 
         //initialize variables
-        chequingSwitch = (Switch) findViewById(R.id.enableChequingIF);
+        debitSwitch = (Switch) findViewById(R.id.enableChequingIF);
         visaSwitch = (Switch) findViewById(R.id.enableVisaIF);
-
-        //check if first time
-        SharedPreferences settings = getSharedPreferences("counterState", Context.MODE_PRIVATE); //state is the preference file
-        firstTimeTapSecure = settings.getBoolean("firstTimeTapSecure", true);
-
-        visaSwitchOn = false;
-        chequingSwitchOn = false;
-
         settingsBtn = (Button) findViewById(R.id.settingsBtn);
 
-        //set to invisible on page load:
-        settingsBtn.setVisibility(View.INVISIBLE);
+        //check shared prefs if first time
+        firstTimeTapSecure = BankService.getSharedPrefs().getBoolean("firstTimeTapSecure", true);
 
-        chequingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        //set initial values
+        getInitialSwitchValues();
+        createSwitchListeners();
+
+        settingsBtn.setVisibility(View.INVISIBLE); //set to invisible on page load
+
+        //NOTE: back button page routing is declared in manifest as the parent
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    public void getInitialSwitchValues(){
+        SharedPreferences.Editor editor = BankService.getSharedPrefs().edit();
+        //get value from shared prefs
+        visaSwitchOn = BankService.getSharedPrefs().getBoolean("VInteracFlashEnabled", false);
+        System.out.println("V:" + visaSwitchOn);
+        debitSwitchOn = BankService.getSharedPrefs().getBoolean("DInteracFlashEnabled", false);
+        System.out.println("D:" + debitSwitchOn);
+        //set switch toggles in gui
+        visaSwitch.setChecked(visaSwitchOn);
+        debitSwitch.setChecked(debitSwitchOn);
+    }
+
+    public void showHideAdvancedSettings(){
+        //show advanced settings
+        if(debitSwitchOn || visaSwitchOn){ //on
+            settingsBtn.setVisibility(View.VISIBLE);
+        } else { //off
+            settingsBtn.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void createSwitchListeners(){
+        debitSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked)
-                    chequingSwitchOn = true;
-                else
-                    chequingSwitchOn = false;
-
-                if(chequingSwitchOn || visaSwitchOn){ //on
-                    settingsBtn.setVisibility(View.VISIBLE);
-                } else { //off
-                    settingsBtn.setVisibility(View.INVISIBLE);
+                if (isChecked) {
+                    debitSwitchOn = true;
+                    BankService.DebitCard.setInteracFlashEnabled(debitSwitchOn);
                 }
+                else {
+                    debitSwitchOn = false;
+                    BankService.DebitCard.setInteracFlashEnabled(debitSwitchOn);
+                }
+                showHideAdvancedSettings();
             }
         });
 
         visaSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked)
+                if (isChecked) {
                     visaSwitchOn = true;
-                else
-                    visaSwitchOn = false;
-
-                if(chequingSwitchOn || visaSwitchOn){ //on
-                    settingsBtn.setVisibility(View.VISIBLE);
-                } else { //off
-                    settingsBtn.setVisibility(View.INVISIBLE);
+                    BankService.VisaCard.setInteracFlashEnabled(visaSwitchOn);
                 }
+                else {
+                    visaSwitchOn = false;
+                    BankService.VisaCard.setInteracFlashEnabled(visaSwitchOn);
+                }
+                showHideAdvancedSettings();
             }
         });
-        setTitle("TD TapSecure");
-
-        //NOTE: back button page routing is declared in manifest as the parent
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     //These 2 methods are for the gear at the top
@@ -109,8 +128,7 @@ public class TapSecureMainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         //save in shared prefs that it has been visited
-        SharedPreferences settings = getSharedPreferences("counterState", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = settings.edit();
+        SharedPreferences.Editor editor = BankService.getSharedPrefs().edit();
         editor.putBoolean("firstTimeTapSecure",firstTimeTapSecure);
         editor.commit();
     }

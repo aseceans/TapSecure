@@ -1,5 +1,6 @@
 package com.example.alexandryan.tapsecure;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -16,7 +17,6 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 
 import static com.example.alexandryan.tapsecure.R.id.fragment_container;
@@ -30,9 +30,21 @@ public class MainTDAppActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_tdapp);
-
         loadHomeFragment(savedInstanceState);
         createNavDrawerAndToolbar(2);
+        createCards();
+    }
+
+    public void createCards(){
+        //create the cards
+        BankService.getBankService().setDebitInfo(new Card(false));
+        BankService.getBankService().setVisaInfo(new Card(true));
+
+        //create shared Preference object
+        BankService.createSharedPref(getSharedPreferences("settings", Context.MODE_PRIVATE));
+
+        BankService.loadSharedPrefsIntoCards();
+        BankService.saveCardsToSharedPrefs();
     }
 
     public void createNavDrawerAndToolbar(int startidx){
@@ -127,8 +139,6 @@ public class MainTDAppActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -150,6 +160,4 @@ public class MainTDAppActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
-
-
 }
