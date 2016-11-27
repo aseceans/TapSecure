@@ -45,7 +45,7 @@ public class MainTDAppActivity extends AppCompatActivity
             Toast.makeText(this, "NFC available!", Toast.LENGTH_SHORT).show();
         }
         else
-            finish();
+            Toast.makeText(this, "This app requires NFC, please turn it on first", Toast.LENGTH_LONG).show();
         pubnubService.PubnubConnect();
     }
 

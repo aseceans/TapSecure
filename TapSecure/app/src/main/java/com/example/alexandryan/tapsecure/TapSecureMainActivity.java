@@ -50,9 +50,8 @@ public class TapSecureMainActivity extends AppCompatActivity {
     public void getInitialSwitchValues(){
         //get value from shared prefs
         visaSwitchOn = BankService.getSharedPrefs().getBoolean("VInteracFlashEnabled", false);
-        System.out.println("V:" + visaSwitchOn);
         debitSwitchOn = BankService.getSharedPrefs().getBoolean("DInteracFlashEnabled", false);
-        System.out.println("D:" + debitSwitchOn);
+
         //set switch toggles in gui
         visaSwitch.setChecked(visaSwitchOn);
         debitSwitch.setChecked(debitSwitchOn);
