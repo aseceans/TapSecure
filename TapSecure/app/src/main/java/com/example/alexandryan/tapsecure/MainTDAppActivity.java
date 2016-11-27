@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
@@ -17,6 +20,7 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 import static com.example.alexandryan.tapsecure.R.id.fragment_container;
@@ -25,14 +29,24 @@ public class MainTDAppActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         TDHomePageFragment.OnFragmentInteractionListener{
 
+    NfcAdapter nfc;
+
     protected NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_tdapp);
+        pubnubService.currentActivity = this;
         loadHomeFragment(savedInstanceState);
         createNavDrawerAndToolbar(2);
         createCards();
+        nfc = NfcAdapter.getDefaultAdapter(this);
+        if(nfc != null && nfc.isEnabled()){
+            Toast.makeText(this, "NFC available!", Toast.LENGTH_SHORT).show();
+        }
+        else
+            finish();
+        pubnubService.PubnubConnect();
     }
 
     public void createCards(){
@@ -160,4 +174,18 @@ public class MainTDAppActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+    // Define a handle to access the context on the main thread. This Handler will handle room created messages.
+    private Handler roomCreatedHandle = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg)
+        {
+            String outputString = "Connected to: " + pubnubService.ROOM_NAME;
+            Toast toast = Toast.makeText(pubnubService.currentActivity, outputString, Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    };
+
+    public Handler getRoomCreatedHandle() {return roomCreatedHandle;}
 }

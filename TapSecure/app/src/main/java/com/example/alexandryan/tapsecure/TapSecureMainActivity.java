@@ -65,6 +65,7 @@ public class TapSecureMainActivity extends AppCompatActivity {
         } else { //off
             settingsBtn.setVisibility(View.INVISIBLE);
         }
+
     }
 
     public void createSwitchListeners(){
