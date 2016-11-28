@@ -27,8 +27,6 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     Switch tapSecureEnabledSwitch;
-    Map.Entry<String, Boolean> visaTapSecureEnabledFlag;
-    Map.Entry<String, Boolean> debitTapSecureEnabledFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,23 +38,12 @@ public class SettingsActivity extends AppCompatActivity {
         tapSecureSettingsHolder = (ScrollView) findViewById(R.id.tapSecureSettingsHolder);
         tapSecureEnabledSwitch = (Switch) findViewById(R.id.tapSecureEnabledSwitch);
         tapDollarDisplay = (EditText) findViewById(R.id.amountEntered);
-        visaTapSecureEnabledFlag = new AbstractMap.SimpleEntry<String, Boolean>("VInteracFlashEnabled",false);
-        debitTapSecureEnabledFlag = new AbstractMap.SimpleEntry<String, Boolean>("DInteracFlashEnabled",false);
 
         createSpinner();
         setVisaSelectedFlag();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //NOTE: back button page routing is declared in manifest as the parent
 
         addListeners();
-
-
-        //initialize flag variables
-
-        updateSwitchFlagValuesFromSharedPrefs();
-        makeSwitchesMatchFlags();
-        //update settings holder visibility
- //       showHideViewBasedOnFlag(tapSecureEnabledSwitchFlag, tapSecureSettingsHolder);
-  //      updateTapDollarDisplayFromSharedPrefs();
     }
 
     public void setVisaSelectedFlag(){
@@ -70,24 +57,21 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         if (visaSelected) {
-            boolean flag = BankService.VisaCard.getTapSecureEnabled();
-            BankService.VisaCard.setTapSecureEnabled(flag); //saved in shared prefs
-            visaTapSecureEnabledFlag.setValue(flag); //reflect it in the flag
-        }
+            tapSecureEnabledSwitch.setChecked(BankService.VisaCard.getTapSecureEnabled());
+            showHideViewBasedOnFlag(BankService.VisaCard.TapSecureEnabled, tapSecureSettingsHolder);
+    }
         else {
-            boolean flag = BankService.DebitCard.getTapSecureEnabled();
-            BankService.DebitCard.setTapSecureEnabled(flag); //saved in shared prefs
-            debitTapSecureEnabledFlag.setValue(flag); //reflect it in the flag
+            tapSecureEnabledSwitch.setChecked(BankService.DebitCard.getTapSecureEnabled());
+            showHideViewBasedOnFlag(BankService.DebitCard.TapSecureEnabled, tapSecureSettingsHolder);
         }
 
     }
     public void createSpinner(){
         List<String> accounts = new ArrayList<String>();
-        //add appropriate cards to spinner
-        if(BankService.getSharedPrefs().getBoolean("VInteracFlashEnabled", false)){
+        if(BankService.VisaCard.getInteracFlashEnabled()){
             accounts.add(BankService.VisaCard.getCardDescription());
         }
-        if (BankService.getSharedPrefs().getBoolean("DInteracFlashEnabled", false)){
+        if(BankService.DebitCard.getInteracFlashEnabled()) {
             accounts.add(BankService.DebitCard.getCardDescription());
         }
 
@@ -103,7 +87,6 @@ public class SettingsActivity extends AppCompatActivity {
         accountSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                //      updateTapDollarDisplayFromSharedPrefs();
                 setVisaSelectedFlag();
             }
 
@@ -122,46 +105,16 @@ public class SettingsActivity extends AppCompatActivity {
 
                 if (visaSelected) {
                     BankService.VisaCard.setTapSecureEnabled(isChecked); //saved in shared prefs
-                    visaTapSecureEnabledFlag.setValue(isChecked); //reflect it in the flag
+                    showHideViewBasedOnFlag(BankService.VisaCard.TapSecureEnabled, tapSecureSettingsHolder);
+                    // this is where all the logic for the bottom switches needs to go (FOR INSTANTIATION)
                 }
                 else {
                     BankService.DebitCard.setTapSecureEnabled(isChecked);
-                    debitTapSecureEnabledFlag.setValue(isChecked);
+                    showHideViewBasedOnFlag(BankService.DebitCard.TapSecureEnabled, tapSecureSettingsHolder);
+                    // this is where all the logic for the bottom switches needs to go (FOR INSTANTIATION)
                 }
-                makeSwitchesMatchFlags();
             }
         });
-/*
-        tapDollarDisplay.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                System.out.println("text changed to " + tapDollarDisplay.getText());
-                Float myF = Float.parseFloat(tapDollarDisplay.getText().toString());
-                BankService.DebitCard.setTapLimit(myF);
-            }
-        });
-*/
-    }
-
-    public void makeSwitchesMatchFlags(){
-        if (visaSelected)
-            tapSecureEnabledSwitch.setChecked(visaTapSecureEnabledFlag.getValue());
-        else //debit
-            tapSecureEnabledSwitch.setChecked(debitTapSecureEnabledFlag.getValue());
-    }
-
-    public void updateSwitchFlagValuesFromSharedPrefs(){
-        if (visaSelected){
-            visaTapSecureEnabledFlag.setValue(BankService.getSharedPrefs().getBoolean(visaTapSecureEnabledFlag.getKey(), false));
-        } else {
-            debitTapSecureEnabledFlag.setValue(BankService.getSharedPrefs().getBoolean(debitTapSecureEnabledFlag.getKey(), false));
-        }
     }
 
     //shows or hides bottom half based on flag
@@ -173,19 +126,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-/*
-    public void updateTapDollarDisplayFromSharedPrefs(){
-        String cardText = accountSpinner.getSelectedItem().toString();
-        if(visaSelected){
-            Float f = BankService.getSharedPrefs().getFloat("VTapLimit",100f);
-            tapDollarDisplay.setText(f.toString());
-        } else { //debit selected
-            Float f = BankService.getSharedPrefs().getFloat("VTapLimit",100f);
-            tapDollarDisplay.setText(f.toString());
-        }
-    }
-*/
-    public void onDollarAmtClick(View view) {
+    /*public void onDollarAmtClick(View view) {
         switch (view.getId()){
             case R.id.button50:
                 tapDollarDisplay.setText("50");
@@ -208,5 +149,5 @@ public class SettingsActivity extends AppCompatActivity {
         if (BankService.getSharedPrefs().getBoolean("DInteracFlashEnabled", false)){ //if debit
             BankService.DebitCard.setTapLimit(amt);
         }
-    }
+    }*/
 }

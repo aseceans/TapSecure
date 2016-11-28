@@ -59,7 +59,7 @@ public class Card {
             editor.putFloat("VCumAmount", this.CumAmount);
         }
         else {
-            editor.putBoolean("DInteracFlashEnabled", this.TapSecureEnabled);
+            editor.putBoolean("DTapSecureEnabled", this.TapSecureEnabled);
             editor.putFloat("DTapLimit", this.TapLimit);
             editor.putBoolean("DTapSecure1MinActive", this.TapSecure1MinActive);
             editor.putBoolean("DCumModeEnabled", this.CumModeEnabled);
