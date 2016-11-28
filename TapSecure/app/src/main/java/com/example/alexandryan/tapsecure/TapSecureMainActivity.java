@@ -28,6 +28,9 @@ public class TapSecureMainActivity extends AppCompatActivity {
         //set page title
         setTitle("TD TapSecure");
 
+        pubnubService.currentActivity = this;
+        NFCService.initNFC();
+
         //initialize variables
         debitSwitch = (Switch) findViewById(R.id.enableChequingIF);
         visaSwitch = (Switch) findViewById(R.id.enableVisaIF);
@@ -115,7 +118,19 @@ public class TapSecureMainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = BankService.getSharedPrefs().edit();
         editor.putBoolean("firstTimeTapSecure",firstTimeTapSecure);
         editor.commit();
-
+        NFCService.NFConPause(this);
         //i can check this in shared prefs
+    }
+
+    @Override
+    protected void onResume() {
+        NFCService.NFConResume(TapSecureMainActivity.class, this);
+        super.onResume();
+    }
+
+    protected void onNewIntent(Intent intent)
+    {
+        NFCService.NFConNewIntent(intent, this);
+        super.onNewIntent(intent);
     }
 }

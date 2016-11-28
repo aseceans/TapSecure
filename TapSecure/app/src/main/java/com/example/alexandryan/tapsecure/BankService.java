@@ -1,5 +1,6 @@
 package com.example.alexandryan.tapsecure;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
@@ -158,6 +159,8 @@ public class BankService {
 
         return result;
     }
+
+
     
 
 }

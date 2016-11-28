@@ -1,13 +1,16 @@
 package com.example.alexandryan.tapsecure;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
@@ -40,12 +43,7 @@ public class MainTDAppActivity extends AppCompatActivity
         loadHomeFragment(savedInstanceState);
         createNavDrawerAndToolbar(2);
         createCards();
-        nfc = NfcAdapter.getDefaultAdapter(this);
-        if(nfc != null && nfc.isEnabled()){
-            Toast.makeText(this, "NFC available!", Toast.LENGTH_SHORT).show();
-        }
-        else
-            Toast.makeText(this, "This app requires NFC, please turn it on first", Toast.LENGTH_LONG).show();
+        NFCService.initNFC();
         pubnubService.PubnubConnect();
     }
 
@@ -53,10 +51,7 @@ public class MainTDAppActivity extends AppCompatActivity
         //create the cards
         BankService.getBankService().setDebitInfo(new Card(false));
         BankService.getBankService().setVisaInfo(new Card(true));
-
-        //create shared Preference object
         BankService.createSharedPref(getSharedPreferences("settings", Context.MODE_PRIVATE));
-
         BankService.loadSharedPrefsIntoCards();
         BankService.saveCardsToSharedPrefs();
     }
@@ -188,4 +183,23 @@ public class MainTDAppActivity extends AppCompatActivity
     };
 
     public Handler getRoomCreatedHandle() {return roomCreatedHandle;}
+
+    protected void onNewIntent(Intent intent)
+    {
+        NFCService.NFConNewIntent(intent, this);
+        super.onNewIntent(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        NFCService.NFConResume(MainTDAppActivity.class, this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause()
+    {
+        NFCService.NFConPause(this);
+        super.onPause();
+    }
 }

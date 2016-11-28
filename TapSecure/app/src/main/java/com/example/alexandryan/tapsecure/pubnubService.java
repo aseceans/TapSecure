@@ -26,7 +26,6 @@ import com.pubnub.api.PubnubException;
     public static final String RESPONSE = "RESPONSE";
     public static final String REQUEST = "REQUEST";
     public static final int NOTIFICATION_ID = 1;
-    public static NfcAdapter nfc;
 
     // Pubnub Keys
     private static String publishKey = "pub-c-3fde3c33-2104-4a30-be52-710969bfb4b3";
@@ -113,17 +112,5 @@ import com.pubnub.api.PubnubException;
         {
             System.out.println(e.toString());
         }
-    }
-
-    //needs to be in onCreate and onResume
-    public static void initNFC()
-    {
-        nfc = NfcAdapter.getDefaultAdapter(currentActivity.getApplicationContext());
-    }
-
-    //needs to be in all the onPause
-    public static void dispatchForegroundNFC(Activity av)
-    {
-        nfc.disableForegroundDispatch(av);
     }
 }

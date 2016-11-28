@@ -1,5 +1,7 @@
 package com.example.alexandryan.tapsecure;
 
+import android.content.Intent;
+import android.nfc.NdefMessage;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -28,6 +30,7 @@ public class SettingsActivity extends AppCompatActivity {
     boolean visaSelected;
     Switch tapSecureEnabledSwitch;
     Switch cumulativeSwitch;
+    Switch tapActiveSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,20 +42,44 @@ public class SettingsActivity extends AppCompatActivity {
         tapSecureEnabledSwitch = (Switch) findViewById(R.id.tapSecureEnabledSwitch);
         tapDollarDisplay = (EditText) findViewById(R.id.amountEntered);
         cumulativeSwitch = (Switch) findViewById(R.id.cumulativeSwitch);
+        tapActiveSwitch = (Switch) findViewById(R.id.activeSwitch);
         createSpinner();
         setVisaSelectedFlag();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //NOTE: back button page routing is declared in manifest as the parent
         addListeners();
+        pubnubService.currentActivity = this;
+        NFCService.initNFC();
+        try{
+           String tapped = getIntent().getExtras().getString("name");
+            if(tapped.equals("Visa"))
+            {
+                BankService.VisaCard.setTapSecure1MinActive(true);
+                accountSpinner.setSelection(0);
+                setVisaSelectedFlag();
+            }else if (tapped.equals("Debit"))
+            {
+                BankService.DebitCard.setTapSecure1MinActive(true);
+                if(accountSpinner.getAdapter().getCount() == 1)
+                    accountSpinner.setSelection(0);
+                else
+                    accountSpinner.setSelection(1);
+                setVisaSelectedFlag();
+            }
+            Toast.makeText(this, tapped + " is activated!", Toast.LENGTH_SHORT).show();
+        }catch(Exception ex)
+        {
+
+        }
     }
 
     public void setVisaSelectedFlag(){
         String spinnerText = accountSpinner.getSelectedItem().toString();
-        if (spinnerText.equals("TD VISA - 2355336522565984")){
+        if (spinnerText.equals(BankService.VisaCard.CardDescription)){
             visaSelected = true;
-            Toast.makeText(this, "visa Selected", Toast.LENGTH_LONG).show();
-        } else if (spinnerText.equals("EVERY DAY CHEQUING - 3365864")){
+            //Toast.makeText(this, "visa Selected", Toast.LENGTH_LONG).show();
+        } else if (spinnerText.equals(BankService.DebitCard.CardDescription)){
             visaSelected = false;
-            Toast.makeText(this, "chequing Selected", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "chequing Selected", Toast.LENGTH_LONG).show();
         }
 
         if (visaSelected) {
@@ -124,6 +151,18 @@ public class SettingsActivity extends AppCompatActivity {
 
         });
 
+        tapActiveSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (visaSelected) {
+                    BankService.VisaCard.setTapSecure1MinActive(isChecked); //saved in shared prefs
+                } else {
+                    BankService.DebitCard.setTapSecure1MinActive(isChecked);
+                }
+            }
+
+        });
+
         tapDollarDisplay.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -151,10 +190,12 @@ public class SettingsActivity extends AppCompatActivity {
         if(visaSelected) {
             tapDollarDisplay.setText(BankService.VisaCard.getTapLimit().toString());
             cumulativeSwitch.setChecked(BankService.VisaCard.getCumModeEnabled());
+            tapActiveSwitch.setChecked(BankService.VisaCard.getTapSecure1MinActive());
         }
         else {
             tapDollarDisplay.setText(BankService.DebitCard.getTapLimit().toString());
             cumulativeSwitch.setChecked(BankService.DebitCard.getCumModeEnabled());
+            tapActiveSwitch.setChecked(BankService.DebitCard.getTapSecure1MinActive());
         }
     }
 
@@ -203,5 +244,25 @@ public class SettingsActivity extends AppCompatActivity {
                 break;
             }
         }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent)
+    {
+        NFCService.NFConNewIntent(intent, this);
+        super.onNewIntent(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        NFCService.NFConResume(SettingsActivity.class, this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause()
+    {
+        NFCService.NFConPause(this);
+        super.onPause();
     }
 }
