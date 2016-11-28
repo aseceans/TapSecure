@@ -2,6 +2,8 @@ package com.example.alexandryan.tapsecure;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,8 +26,6 @@ public class SettingsActivity extends AppCompatActivity {
     EditText tapDollarDisplay;
     ScrollView tapSecureSettingsHolder;
     boolean visaSelected;
-
-
     Switch tapSecureEnabledSwitch;
 
     @Override
@@ -59,12 +59,11 @@ public class SettingsActivity extends AppCompatActivity {
         if (visaSelected) {
             tapSecureEnabledSwitch.setChecked(BankService.VisaCard.getTapSecureEnabled());
             showHideViewBasedOnFlag(BankService.VisaCard.TapSecureEnabled, tapSecureSettingsHolder);
-    }
+        }
         else {
             tapSecureEnabledSwitch.setChecked(BankService.DebitCard.getTapSecureEnabled());
             showHideViewBasedOnFlag(BankService.DebitCard.TapSecureEnabled, tapSecureSettingsHolder);
         }
-
     }
     public void createSpinner(){
         List<String> accounts = new ArrayList<String>();
@@ -93,8 +92,6 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) { }
         });
-
-
     }
     public void addListeners(){
         tapSecureEnabledSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -115,6 +112,20 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             }
         });
+        tapDollarDisplay.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                System.out.println("text changed to " + tapDollarDisplay.getText());
+                Float myF = Float.parseFloat(tapDollarDisplay.getText().toString());
+                BankService.DebitCard.setTapLimit(myF);
+            }
+        });
     }
 
     //shows or hides bottom half based on flag
@@ -126,28 +137,20 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    /*public void onDollarAmtClick(View view) {
+    public void onDollarAmtClick(View view) {
         switch (view.getId()){
             case R.id.button50:
                 tapDollarDisplay.setText("50");
-                saveTapLimitInSharedPrefs(50f);
+              //  saveTapLimitInSharedPrefs(50f);
                 break;
             case R.id.button100:
                 tapDollarDisplay.setText("100");
-                saveTapLimitInSharedPrefs(100f);
+             //   saveTapLimitInSharedPrefs(100f);
                 break;
             case R.id.button250:
                 tapDollarDisplay.setText("250");
-                saveTapLimitInSharedPrefs(250f);
+             //   saveTapLimitInSharedPrefs(250f);
                 break;
         }
     }
-    public void saveTapLimitInSharedPrefs(float amt){
-        if(BankService.getSharedPrefs().getBoolean("VInteracFlashEnabled", false)){ //if visa
-            BankService.VisaCard.setTapLimit(amt);
-        }
-        if (BankService.getSharedPrefs().getBoolean("DInteracFlashEnabled", false)){ //if debit
-            BankService.DebitCard.setTapLimit(amt);
-        }
-    }*/
 }
