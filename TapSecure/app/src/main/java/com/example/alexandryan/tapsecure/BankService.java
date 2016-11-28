@@ -1,7 +1,8 @@
 package com.example.alexandryan.tapsecure;
 
-import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.Message;
 
 /**
  * Created by asece on 11/25/2016.
@@ -90,8 +91,16 @@ public class BankService {
             {
                 if(!VisaCard.TapSecure1MinActive)
                     response = "TapSecure enabled: Please tap to phone then terminal!";
-                else
+                else {
                     response = processVisa(req.Amount);
+                    if(pubnubService.currentActivity.getClass() == SettingsActivity.class) {
+                        Message m = ((SettingsActivity) pubnubService.currentActivity).getTapGUItoggle().obtainMessage();
+                        Bundle data = new Bundle();
+                        data.putString("message", "Visa");
+                        m.setData(data);
+                        m.sendToTarget();
+                    }
+                }
             }
         }
         else if(DebitCard.CardNumber.equals(req.CardNumber))
@@ -104,8 +113,17 @@ public class BankService {
             {
                 if(!DebitCard.TapSecure1MinActive)
                     response = "TapSecure enabled: Please tap to phone then terminal!";
-                else
+                else {
                     response = processDebit(req.Amount);
+                    if(pubnubService.currentActivity.getClass() == SettingsActivity.class) {
+                        Message m = ((SettingsActivity) pubnubService.currentActivity).getTapGUItoggle().obtainMessage();
+                        Bundle data = new Bundle();
+                        data.putString("message", "Debit");
+                        m.setData(data);
+                        m.sendToTarget();
+                        response = processDebit(req.Amount);
+                    }
+                }
             }
         }
         else

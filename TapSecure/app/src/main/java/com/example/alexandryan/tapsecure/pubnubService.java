@@ -1,9 +1,7 @@
 package com.example.alexandryan.tapsecure;
 
-import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.nfc.NfcAdapter;
 import android.os.Message;
 import android.support.v7.app.NotificationCompat;
 
@@ -59,7 +57,6 @@ import com.pubnub.api.PubnubException;
         {
             case(REQUEST): {
                 ARMessageRequest request = gson.fromJson(arMessage.Data, ARMessageRequest.class);
-                //Message ma = ((MainActivity) currentActivity).getMessageHandle().obtainMessage();
                 response.Message = BankService.processRequest(request);
                 pubnubService.SendMessage(pubnubService.RESPONSE, response);
                 break;

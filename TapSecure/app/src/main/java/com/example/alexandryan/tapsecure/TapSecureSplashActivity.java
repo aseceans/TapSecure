@@ -15,7 +15,6 @@ public class TapSecureSplashActivity extends AppCompatActivity {
     }
 
     public void OnGetStartedClick(View view) {
-        Intent intent = new Intent(this, TapSecureMainActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(this, SettingsActivity.class));
     }
 }

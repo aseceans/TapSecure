@@ -2,6 +2,8 @@ package com.example.alexandryan.tapsecure;
 
 import android.content.Intent;
 import android.nfc.NdefMessage;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -51,26 +53,63 @@ public class SettingsActivity extends AppCompatActivity {
         NFCService.initNFC();
         try{
            String tapped = getIntent().getExtras().getString("name");
-            if(tapped.equals("Visa"))
-            {
-                BankService.VisaCard.setTapSecure1MinActive(true);
-                accountSpinner.setSelection(0);
-                setVisaSelectedFlag();
-            }else if (tapped.equals("Debit"))
-            {
-                BankService.DebitCard.setTapSecure1MinActive(true);
-                if(accountSpinner.getAdapter().getCount() == 1)
-                    accountSpinner.setSelection(0);
-                else
-                    accountSpinner.setSelection(1);
-                setVisaSelectedFlag();
-            }
-            Toast.makeText(this, tapped + " is activated!", Toast.LENGTH_SHORT).show();
+            handleTapInput(tapped);
         }catch(Exception ex)
         {
 
         }
     }
+
+    private void handleTapInput(String s)
+    {
+        if(s.equals("Visa"))
+        {
+            BankService.VisaCard.setTapSecure1MinActive(true);
+            accountSpinner.setSelection(0);
+            setVisaSelectedFlag();
+        }else if (s.equals("Debit"))
+        {
+            BankService.DebitCard.setTapSecure1MinActive(true);
+            if(accountSpinner.getAdapter().getCount() == 1)
+                accountSpinner.setSelection(0);
+            else
+                accountSpinner.setSelection(1);
+            setVisaSelectedFlag();
+        }
+        Toast.makeText(this, s + " is activated!", Toast.LENGTH_SHORT).show();
+    }
+
+    private Handler tapHandle = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg)
+        {
+            Bundle data = msg.getData();
+            String mydata = data.getString("message");
+            handleTapInput(mydata);
+        }
+    };
+
+    private Handler tapGUItoggle = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg)
+        {
+            Bundle data = msg.getData();
+            String mydata = data.getString("message");
+            if(mydata.equals("Visa") && !visaSelected)
+                BankService.VisaCard.setTapSecure1MinActive(false);
+            else if(mydata.equals("Visa") && visaSelected)
+                tapActiveSwitch.setChecked(false);
+            else if (mydata.equals("Debit") && !visaSelected)
+                tapActiveSwitch.setChecked(false);
+            else if (mydata.equals("Debit") && visaSelected)
+                BankService.DebitCard.setTapSecure1MinActive(false);
+        }
+    };
+
+    public Handler getTapGUItoggle() {return tapGUItoggle;}
+    public Handler getTapHandle() {return tapHandle;}
 
     public void setVisaSelectedFlag(){
         String spinnerText = accountSpinner.getSelectedItem().toString();

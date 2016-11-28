@@ -34,10 +34,15 @@ public class Card {
 
         SharedPreferences.Editor editor = BankService.getSharedPrefs().edit();
         if(IsCredit) //visa
+        {
             editor.putBoolean("VInteracFlashEnabled", this.InteracFlashEnabled);
-        else
+        }
+        else {
             editor.putBoolean("DInteracFlashEnabled", this.InteracFlashEnabled);
+        }
         editor.commit();
+        if(b == false)
+            setTapSecureEnabled(b);
     }
     public boolean getInteracFlashEnabled() {return this.InteracFlashEnabled;}
 

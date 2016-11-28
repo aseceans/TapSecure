@@ -7,7 +7,8 @@ import android.content.IntentFilter;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
-import android.nfc.tech.Ndef;
+import android.os.Bundle;
+import android.os.Message;
 import android.os.Parcelable;
 import android.widget.Toast;
 
@@ -36,9 +37,19 @@ public class NFCService {
                     Toast.makeText(pubnubService.currentActivity, "Visa cards tapsecure is disabled!", Toast.LENGTH_SHORT).show();
                 else if(BankService.VisaCard.InteracFlashEnabled && BankService.VisaCard.TapSecureEnabled)
                 {
-                    Intent myIntent = new Intent(av, SettingsActivity.class);
-                    myIntent.putExtra("name", cardType);
-                    av.startActivity(myIntent);
+                    if(pubnubService.currentActivity.getClass() != SettingsActivity.class) {
+                        Intent myIntent = new Intent(av, SettingsActivity.class);
+                        myIntent.putExtra("name", cardType);
+                        av.startActivity(myIntent);
+                    }
+                    else
+                    {
+                        Message m = ((SettingsActivity)pubnubService.currentActivity).getTapHandle().obtainMessage();
+                        Bundle data = new Bundle();
+                        data.putString("message", cardType);
+                        m.setData(data);
+                        m.sendToTarget();
+                    }
                 }
             }
             else if(cardType.equals("Debit"))
@@ -49,9 +60,19 @@ public class NFCService {
                     Toast.makeText(pubnubService.currentActivity, "Debit cards tapsecure is disabled!", Toast.LENGTH_SHORT).show();
                 else if(BankService.DebitCard.InteracFlashEnabled && BankService.DebitCard.TapSecureEnabled)
                 {
-                    Intent myIntent = new Intent(av, SettingsActivity.class);
-                    myIntent.putExtra("name", cardType);
-                    av.startActivity(myIntent);
+                    if(pubnubService.currentActivity.getClass() != SettingsActivity.class) {
+                        Intent myIntent = new Intent(av, SettingsActivity.class);
+                        myIntent.putExtra("name", cardType);
+                        av.startActivity(myIntent);
+                    }
+                    else
+                    {
+                        Message m = ((SettingsActivity)pubnubService.currentActivity).getTapHandle().obtainMessage();
+                        Bundle data = new Bundle();
+                        data.putString("message", cardType);
+                        m.setData(data);
+                        m.sendToTarget();
+                    }
                 }
             }
             else if(cardType.equals("nocard")) {
@@ -62,10 +83,6 @@ public class NFCService {
             Toast.makeText(pubnubService.currentActivity, "No Message!!", Toast.LENGTH_SHORT).show();
         }
     }
-
-    //Intent myIntent = new Intent(av, SettingsActivity.class);
-    //myIntent.putExtra("Parcel", parcelables);
-    //av.startActivity(myIntent);
 
     private static String readTextFromMessage(NdefMessage ndef) {
         NdefRecord[] ndefRecords = ndef.getRecords();
@@ -87,6 +104,7 @@ public class NFCService {
         }
     }
     public static void NFConResume(Class c, Activity av) {
+        pubnubService.currentActivity = av;
         Intent intent = new Intent(pubnubService.currentActivity, c);
         intent.addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
         PendingIntent pendingIntent = PendingIntent.getActivity(pubnubService.currentActivity, 0, intent, 0);
