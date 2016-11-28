@@ -27,22 +27,21 @@ public class SettingsActivity extends AppCompatActivity {
     ScrollView tapSecureSettingsHolder;
     boolean visaSelected;
     Switch tapSecureEnabledSwitch;
+    Switch cumulativeSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         setTitle("TD TapSecure Settings");
-
         //initialize variables
         tapSecureSettingsHolder = (ScrollView) findViewById(R.id.tapSecureSettingsHolder);
         tapSecureEnabledSwitch = (Switch) findViewById(R.id.tapSecureEnabledSwitch);
         tapDollarDisplay = (EditText) findViewById(R.id.amountEntered);
-
+        cumulativeSwitch = (Switch) findViewById(R.id.cumulativeSwitch);
         createSpinner();
         setVisaSelectedFlag();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //NOTE: back button page routing is declared in manifest as the parent
-
         addListeners();
     }
 
@@ -53,16 +52,18 @@ public class SettingsActivity extends AppCompatActivity {
             Toast.makeText(this, "visa Selected", Toast.LENGTH_LONG).show();
         } else if (spinnerText.equals("EVERY DAY CHEQUING - 3365864")){
             visaSelected = false;
-            Toast.makeText(this, "cheqing Selected", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "chequing Selected", Toast.LENGTH_LONG).show();
         }
 
         if (visaSelected) {
             tapSecureEnabledSwitch.setChecked(BankService.VisaCard.getTapSecureEnabled());
             showHideViewBasedOnFlag(BankService.VisaCard.TapSecureEnabled, tapSecureSettingsHolder);
+            updateLowerValues();
         }
         else {
             tapSecureEnabledSwitch.setChecked(BankService.DebitCard.getTapSecureEnabled());
             showHideViewBasedOnFlag(BankService.DebitCard.TapSecureEnabled, tapSecureSettingsHolder);
+            updateLowerValues();
         }
     }
     public void createSpinner(){
@@ -93,7 +94,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) { }
         });
     }
-    public void addListeners(){
+    public void addListeners() {
         tapSecureEnabledSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -103,29 +104,58 @@ public class SettingsActivity extends AppCompatActivity {
                 if (visaSelected) {
                     BankService.VisaCard.setTapSecureEnabled(isChecked); //saved in shared prefs
                     showHideViewBasedOnFlag(BankService.VisaCard.TapSecureEnabled, tapSecureSettingsHolder);
-                    // this is where all the logic for the bottom switches needs to go (FOR INSTANTIATION)
-                }
-                else {
+                } else {
                     BankService.DebitCard.setTapSecureEnabled(isChecked);
                     showHideViewBasedOnFlag(BankService.DebitCard.TapSecureEnabled, tapSecureSettingsHolder);
-                    // this is where all the logic for the bottom switches needs to go (FOR INSTANTIATION)
                 }
+                updateLowerValues();
             }
         });
+
+        cumulativeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (visaSelected) {
+                    BankService.VisaCard.setCumModeEnabled(isChecked); //saved in shared prefs
+                } else {
+                    BankService.DebitCard.setCumModeEnabled(isChecked);
+                }
+            }
+
+        });
+
         tapDollarDisplay.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                System.out.println("text changed to " + tapDollarDisplay.getText());
-                Float myF = Float.parseFloat(tapDollarDisplay.getText().toString());
-                BankService.DebitCard.setTapLimit(myF);
+                if(tapDollarDisplay.getText().length() > 0) {
+                    if (visaSelected) {
+                        BankService.VisaCard.setTapLimit(Float.parseFloat(tapDollarDisplay.getText().toString()));
+                    } else {
+                        BankService.DebitCard.setTapLimit(Float.parseFloat(tapDollarDisplay.getText().toString()));
+                    }
+                }
             }
         });
+    }
+
+    public void updateLowerValues()
+    {
+        if(visaSelected) {
+            tapDollarDisplay.setText(BankService.VisaCard.getTapLimit().toString());
+            cumulativeSwitch.setChecked(BankService.VisaCard.getCumModeEnabled());
+        }
+        else {
+            tapDollarDisplay.setText(BankService.DebitCard.getTapLimit().toString());
+            cumulativeSwitch.setChecked(BankService.DebitCard.getCumModeEnabled());
+        }
     }
 
     //shows or hides bottom half based on flag
@@ -139,18 +169,39 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void onDollarAmtClick(View view) {
         switch (view.getId()){
-            case R.id.button50:
-                tapDollarDisplay.setText("50");
-              //  saveTapLimitInSharedPrefs(50f);
+            case R.id.button50: {
+                if(visaSelected) {
+                    BankService.VisaCard.setTapLimit(50);
+                    tapDollarDisplay.setText(BankService.VisaCard.getTapLimit().toString());
+                }
+                else {
+                    BankService.DebitCard.setTapLimit(50);
+                    tapDollarDisplay.setText(BankService.DebitCard.getTapLimit().toString());
+                }
                 break;
-            case R.id.button100:
-                tapDollarDisplay.setText("100");
-             //   saveTapLimitInSharedPrefs(100f);
+            }
+            case R.id.button100: {
+                if(visaSelected) {
+                    BankService.VisaCard.setTapLimit(100);
+                    tapDollarDisplay.setText(BankService.VisaCard.getTapLimit().toString());
+                }
+                else {
+                    BankService.DebitCard.setTapLimit(100);
+                    tapDollarDisplay.setText(BankService.DebitCard.getTapLimit().toString());
+                }
                 break;
-            case R.id.button250:
-                tapDollarDisplay.setText("250");
-             //   saveTapLimitInSharedPrefs(250f);
+            }
+            case R.id.button250: {
+                if(visaSelected) {
+                    BankService.VisaCard.setTapLimit(250);
+                    tapDollarDisplay.setText(BankService.VisaCard.getTapLimit().toString());
+                }
+                else {
+                    BankService.DebitCard.setTapLimit(250);
+                    tapDollarDisplay.setText(BankService.DebitCard.getTapLimit().toString());
+                }
                 break;
+            }
         }
     }
 }

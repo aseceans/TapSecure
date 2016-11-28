@@ -116,9 +116,9 @@ public class Card {
             editor.putFloat("DTapLimit", this.TapLimit);
         editor.commit();
     }
-    public float getTapLimit() { return this.TapLimit;}
+    public Float getTapLimit() { return this.TapLimit;}
 
-    public void setBalance(float d) {
+    public void setBalance(Float d) {
         this.Balance = d;
 
         SharedPreferences.Editor editor = BankService.getSharedPrefs().edit();
