@@ -1,8 +1,10 @@
 package com.example.alexandryan.tapsecure;
 
+import android.app.NotificationManager;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v7.app.NotificationCompat;
 
 /**
  * Created by asece on 11/25/2016.
@@ -15,6 +17,7 @@ public class BankService {
 
     public static BankService getBankService() {return bs;}
 
+    public static final int NOTIFICATION_ID = 1;
     public static void setVisaInfo(Card c) { VisaCard = c; }
     public static void setDebitInfo(Card c) { DebitCard = c; }
 
@@ -35,6 +38,7 @@ public class BankService {
         editor.putFloat("VCumAmount", VisaCard.getCumAmount());
         editor.putFloat("VTapLimit", VisaCard.getTapLimit());
         editor.putFloat("VBalance", VisaCard.getBalance());
+        editor.putBoolean("VNotificationsEnabled", VisaCard.getNotificationsEnabled());
 
         editor.putString("DType", DebitCard.getType());
         editor.putBoolean("DIsCredit", DebitCard.getIsCredit());
@@ -47,6 +51,7 @@ public class BankService {
         editor.putFloat("DCumAmount", DebitCard.getCumAmount());
         editor.putFloat("DTapLimit", DebitCard.getTapLimit());
         editor.putFloat("DBalance", DebitCard.getBalance());
+        editor.putBoolean("BNotificationsEnabled", DebitCard.getNotificationsEnabled());
 
         editor.commit();
     }
@@ -64,6 +69,7 @@ public class BankService {
         VisaCard.TapLimit = tapSettings.getFloat("VTapLimit", 100f);
         VisaCard.Balance = tapSettings.getFloat("VBalance", 0.00f);
         VisaCard.CumModeEnabled = tapSettings.getBoolean("VCumModeEnabled", true);
+        VisaCard.NotificationsEnabled = tapSettings.getBoolean("VNotificationsEnabled", false);
         //debit
         DebitCard.Type = tapSettings.getString("DType", "EVERY DAY CHEQUING");
         DebitCard.IsCredit = tapSettings.getBoolean("DIsCredit", false);
@@ -76,6 +82,7 @@ public class BankService {
         DebitCard.TapLimit = tapSettings.getFloat("DTapLimit", 100f);
         DebitCard.Balance = tapSettings.getFloat("DBalance", 2000);
         DebitCard.CumModeEnabled = tapSettings.getBoolean("DCumModeEnabled", true);
+        DebitCard.NotificationsEnabled = tapSettings.getBoolean("DNotificationsEnabled", false);
         
     }
 
@@ -92,8 +99,18 @@ public class BankService {
             }
             else if(VisaCard.InteracFlashEnabled && VisaCard.TapSecureEnabled)
             {
-                if(!VisaCard.TapSecure1MinActive)
+                if(!VisaCard.TapSecure1MinActive) {
                     response = "TapSecure enabled: Please tap to phone then terminal!";
+                    if (VisaCard.getNotificationsEnabled()) {
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(pubnubService.currentActivity);
+                        builder.setSmallIcon(R.drawable.ic_tdlogo);
+                        builder.setContentTitle("TD TapSecure Fraud Notification");
+                        builder.setContentText("Attempt on Visa card at " + req.Vendor);
+                        builder.setAutoCancel(true);
+                        NotificationManager notificationManager = (NotificationManager) pubnubService.currentActivity.getSystemService(pubnubService.currentActivity.NOTIFICATION_SERVICE);
+                        notificationManager.notify(NOTIFICATION_ID, builder.build());
+                    }
+                }
                 else {
                     response = processVisa(req.Amount);
                     if(response.equals("Transaction Successful"))
@@ -127,8 +144,19 @@ public class BankService {
             }
             else if(DebitCard.InteracFlashEnabled && DebitCard.TapSecureEnabled)
             {
-                if(!DebitCard.TapSecure1MinActive)
+                if(!DebitCard.TapSecure1MinActive) {
                     response = "TapSecure enabled: Please tap to phone then terminal!";
+                    if(DebitCard.getNotificationsEnabled())
+                    {
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(pubnubService.currentActivity);
+                        builder.setSmallIcon(R.drawable.ic_tdlogo);
+                        builder.setContentTitle("TD TapSecure Fraud Notification");
+                        builder.setContentText("Attempt on Debit card at " + req.Vendor);
+                        builder.setAutoCancel(true);
+                        NotificationManager notificationManager = (NotificationManager) pubnubService.currentActivity.getSystemService(pubnubService.currentActivity.NOTIFICATION_SERVICE);
+                        notificationManager.notify(NOTIFICATION_ID, builder.build());
+                    }
+                }
                 else {
                     response = processDebit(req.Amount);
                     if(response.equals("Transaction Successful"))

@@ -15,6 +15,7 @@ public class Card {
     boolean TapSecureEnabled; //if this is false, there is no one minute timer is false , if this is true, then 1min timer is false
     boolean TapSecure1MinActive; //the 1 minute active one
     boolean CumModeEnabled;
+    boolean NotificationsEnabled;
 
     float CumAmount;
     float TapLimit;
@@ -26,8 +27,20 @@ public class Card {
 
     public String getType() {return Type;}
     public boolean getIsCredit() {return IsCredit;}
+    public boolean getNotificationsEnabled() {return NotificationsEnabled;}
     public String getCardNumber() {return CardNumber;}
     public String getCardDescription() {return CardDescription;}
+
+    public void setNotificationsEnabled(boolean b)
+    {
+        this.NotificationsEnabled = b;
+        SharedPreferences.Editor editor = BankService.getSharedPrefs().edit();
+        if(IsCredit)
+            editor.putBoolean("VNotificationsEnabled", this.NotificationsEnabled);
+        else
+            editor.putBoolean("DNotificationsEnabled", this.NotificationsEnabled);
+        editor.commit();
+    }
 
     public void setInteracFlashEnabled(boolean b) {
         this.InteracFlashEnabled = b;
@@ -54,6 +67,7 @@ public class Card {
             setTapSecure1MinActive(false);
             setCumModeEnabled(true);
             setCumAmount(0.00f);
+            setNotificationsEnabled(false);
         }
         SharedPreferences.Editor editor = BankService.getSharedPrefs().edit();
         if(IsCredit){ //visa
@@ -62,6 +76,7 @@ public class Card {
             editor.putBoolean("VTapSecure1MinActive", this.TapSecure1MinActive);
             editor.putBoolean("VCumModeEnabled", this.CumModeEnabled);
             editor.putFloat("VCumAmount", this.CumAmount);
+            editor.putBoolean("VNotificationsEnabled", this.NotificationsEnabled);
         }
         else {
             editor.putBoolean("DTapSecureEnabled", this.TapSecureEnabled);
@@ -69,6 +84,7 @@ public class Card {
             editor.putBoolean("DTapSecure1MinActive", this.TapSecure1MinActive);
             editor.putBoolean("DCumModeEnabled", this.CumModeEnabled);
             editor.putFloat("DCumAmount", this.CumAmount);
+            editor.putBoolean("DNotificationsEnabled", this.NotificationsEnabled);
         }
         editor.commit();
     }

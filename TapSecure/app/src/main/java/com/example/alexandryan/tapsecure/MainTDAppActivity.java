@@ -36,6 +36,7 @@ public class MainTDAppActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_tdapp);
+        setTitle("");
         pubnubService.currentActivity = this;
         loadHomeFragment(savedInstanceState);
         createNavDrawerAndToolbar(2);

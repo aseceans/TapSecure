@@ -33,6 +33,7 @@ public class SettingsActivity extends AppCompatActivity {
     Switch tapSecureEnabledSwitch;
     Switch cumulativeSwitch;
     Switch tapActiveSwitch;
+    Switch notificationsSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class SettingsActivity extends AppCompatActivity {
         tapDollarDisplay = (EditText) findViewById(R.id.amountEntered);
         cumulativeSwitch = (Switch) findViewById(R.id.cumulativeSwitch);
         tapActiveSwitch = (Switch) findViewById(R.id.activeSwitch);
+        notificationsSwitch = (Switch) findViewById(R.id.NotificationsSwitch);
         createSpinner();
         setVisaSelectedFlag();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //NOTE: back button page routing is declared in manifest as the parent
@@ -230,6 +232,20 @@ public class SettingsActivity extends AppCompatActivity {
 
         });
 
+        notificationsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (visaSelected) {
+                    BankService.VisaCard.setNotificationsEnabled(isChecked); //saved in shared prefs
+                } else {
+                    BankService.DebitCard.setNotificationsEnabled(isChecked);
+                }
+            }
+
+        });
+
+
+
         tapDollarDisplay.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -258,6 +274,7 @@ public class SettingsActivity extends AppCompatActivity {
             tapDollarDisplay.setText(BankService.VisaCard.getTapLimit().toString());
             cumulativeSwitch.setChecked(BankService.VisaCard.getCumModeEnabled());
             tapActiveSwitch.setChecked(BankService.VisaCard.getTapSecure1MinActive());
+            notificationsSwitch.setChecked(BankService.VisaCard.getNotificationsEnabled());
             if(BankService.VisaCard.getCumModeEnabled())
                 cumulativeSwitch.setText("Cumulative Mode \n(Current Total: $" + BankService.VisaCard.getCumAmount() + ")");
             else
@@ -267,8 +284,9 @@ public class SettingsActivity extends AppCompatActivity {
             tapDollarDisplay.setText(BankService.DebitCard.getTapLimit().toString());
             cumulativeSwitch.setChecked(BankService.DebitCard.getCumModeEnabled());
             tapActiveSwitch.setChecked(BankService.DebitCard.getTapSecure1MinActive());
+            notificationsSwitch.setChecked(BankService.DebitCard.getNotificationsEnabled());
             if(BankService.DebitCard.getCumModeEnabled())
-                cumulativeSwitch.setText("Cumulative Mode \n(Current Total: $" + BankService.VisaCard.getCumAmount() + ")");
+                cumulativeSwitch.setText("Cumulative Mode \n(Current Total: $" + BankService.DebitCard.getCumAmount() + ")");
             else
                 cumulativeSwitch.setText("Cumulative Mode");
 

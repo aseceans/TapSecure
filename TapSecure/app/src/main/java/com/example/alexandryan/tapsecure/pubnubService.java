@@ -1,9 +1,7 @@
 package com.example.alexandryan.tapsecure;
 
-import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Message;
-import android.support.v7.app.NotificationCompat;
 
 import com.google.gson.Gson;
 import com.pubnub.api.Callback;
@@ -23,7 +21,6 @@ import com.pubnub.api.PubnubException;
     public static final boolean terminal = true;
     public static final String RESPONSE = "RESPONSE";
     public static final String REQUEST = "REQUEST";
-    public static final int NOTIFICATION_ID = 1;
 
     // Pubnub Keys
     private static String publishKey = "pub-c-3fde3c33-2104-4a30-be52-710969bfb4b3";
@@ -63,15 +60,6 @@ import com.pubnub.api.PubnubException;
             }
 
             case(RESPONSE):
-                //if notifications are on
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(currentActivity);
-                builder.setSmallIcon(R.drawable.android);
-                builder.setContentTitle("BasicNotifications Sample");
-                builder.setContentText("Time to learn about notifications!");
-                builder.setSubText("Tap to view documentation about notifications.");
-                builder.setAutoCancel(true);
-                NotificationManager notificationManager = (NotificationManager) currentActivity.getSystemService(currentActivity.NOTIFICATION_SERVICE);
-                notificationManager.notify(NOTIFICATION_ID, builder.build());
                 break;
         }
     }
