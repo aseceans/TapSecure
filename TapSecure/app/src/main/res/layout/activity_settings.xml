@@ -181,7 +181,7 @@
                     android:background="@drawable/td_border_full"/>
 
                 <Switch
-                    android:text="Notification 1"
+                    android:text="TapSecure Fraud Notifications"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/notification1"
@@ -191,36 +191,6 @@
                     android:paddingBottom="20dp"
                     android:background="@drawable/td_border_full"/>
 
-                <Switch
-                    android:text="Notification 2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/notification2"
-                    android:textSize="20dp"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:background="@drawable/td_border_full"/>
-                <Switch
-                    android:text="Notification 3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/notification3"
-                    android:textSize="20dp"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:background="@drawable/td_border_full"/>
-                <Switch
-                    android:text="Notification 4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/notification4"
-                    android:textSize="20dp"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:background="@drawable/td_border_full"/>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

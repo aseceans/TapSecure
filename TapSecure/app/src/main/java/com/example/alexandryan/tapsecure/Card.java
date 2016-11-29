@@ -53,7 +53,7 @@ public class Card {
             setTapLimit(100.0f);
             setTapSecure1MinActive(false);
             setCumModeEnabled(true);
-            setCumAmount(0.0f);
+            setCumAmount(0.00f);
         }
         SharedPreferences.Editor editor = BankService.getSharedPrefs().edit();
         if(IsCredit){ //visa
@@ -92,9 +92,15 @@ public class Card {
 
         SharedPreferences.Editor editor = BankService.getSharedPrefs().edit();
         if(IsCredit) //visa
+        {
             editor.putBoolean("VCumModeEnabled", this.CumModeEnabled);
+            this.setCumAmount(0.00f);
+        }
         else
+        {
             editor.putBoolean("DCumModeEnabled", this.CumModeEnabled);
+            this.setCumAmount(0.00f);
+        }
         editor.commit();
     }
     public boolean getCumModeEnabled() {return this.CumModeEnabled;}

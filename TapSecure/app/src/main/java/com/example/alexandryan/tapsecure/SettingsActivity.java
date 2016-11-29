@@ -90,6 +90,25 @@ public class SettingsActivity extends AppCompatActivity {
         }
     };
 
+
+    private Handler cumulativeTotalHandle = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg)
+        {
+            Bundle data = msg.getData();
+            String myString = data.getString("type");
+            if(cumulativeSwitch.isChecked()) {
+                if (myString.equals("Visa") && visaSelected) {
+                    cumulativeSwitch.setText("Cumulative Mode \n(Current Total: $" + BankService.VisaCard.getCumAmount() + ")");
+                } else if (myString.equals("Debit") && !visaSelected) {
+                    cumulativeSwitch.setText("Cumulative Mode \n(Current Total: $" + BankService.DebitCard.getCumAmount() + ")");
+                }
+
+            }
+        }
+    };
+
     private Handler tapGUItoggle = new Handler()
     {
         @Override
@@ -110,6 +129,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     public Handler getTapGUItoggle() {return tapGUItoggle;}
     public Handler getTapHandle() {return tapHandle;}
+    public Handler getCumulativeTotalHandle() {return cumulativeTotalHandle;}
 
     public void setVisaSelectedFlag(){
         String spinnerText = accountSpinner.getSelectedItem().toString();
@@ -183,8 +203,16 @@ public class SettingsActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (visaSelected) {
                     BankService.VisaCard.setCumModeEnabled(isChecked); //saved in shared prefs
+                    if(BankService.VisaCard.getCumModeEnabled())
+                        cumulativeSwitch.setText("Cumulative Mode \n(Current Total: $" + BankService.VisaCard.getCumAmount() + ")");
+                    else
+                        cumulativeSwitch.setText("Cumulative Mode");
                 } else {
                     BankService.DebitCard.setCumModeEnabled(isChecked);
+                    if(BankService.DebitCard.getCumModeEnabled())
+                        cumulativeSwitch.setText("Cumulative Mode \n(Current Total: $" + BankService.VisaCard.getCumAmount() + ")");
+                    else
+                        cumulativeSwitch.setText("Cumulative Mode");
                 }
             }
 
@@ -230,11 +258,20 @@ public class SettingsActivity extends AppCompatActivity {
             tapDollarDisplay.setText(BankService.VisaCard.getTapLimit().toString());
             cumulativeSwitch.setChecked(BankService.VisaCard.getCumModeEnabled());
             tapActiveSwitch.setChecked(BankService.VisaCard.getTapSecure1MinActive());
+            if(BankService.VisaCard.getCumModeEnabled())
+                cumulativeSwitch.setText("Cumulative Mode \n(Current Total: $" + BankService.VisaCard.getCumAmount() + ")");
+            else
+                cumulativeSwitch.setText("Cumulative Mode");
         }
         else {
             tapDollarDisplay.setText(BankService.DebitCard.getTapLimit().toString());
             cumulativeSwitch.setChecked(BankService.DebitCard.getCumModeEnabled());
             tapActiveSwitch.setChecked(BankService.DebitCard.getTapSecure1MinActive());
+            if(BankService.DebitCard.getCumModeEnabled())
+                cumulativeSwitch.setText("Cumulative Mode \n(Current Total: $" + BankService.VisaCard.getCumAmount() + ")");
+            else
+                cumulativeSwitch.setText("Cumulative Mode");
+
         }
     }
 

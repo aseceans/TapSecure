@@ -26,7 +26,7 @@ public class TapSecureMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tap_secure_main);
         //set page title
-        setTitle("TD TapSecure");
+        setTitle("TD Interac Flash");
 
         pubnubService.currentActivity = this;
         NFCService.initNFC();
@@ -119,7 +119,6 @@ public class TapSecureMainActivity extends AppCompatActivity {
         editor.putBoolean("firstTimeTapSecure",firstTimeTapSecure);
         editor.commit();
         NFCService.NFConPause(this);
-        //i can check this in shared prefs
     }
 
     @Override
